@@ -1,4 +1,4 @@
-import { CheckSquareOutlined, LoadingOutlined, PlusOutlined } from "@ant-design/icons";
+import { CheckSquareOutlined, LoadingOutlined, PlusOutlined, EditOutlined } from "@ant-design/icons";
 import { FooterToolbar, ModalForm, ProCard, ProFormText, ProFormTextArea } from "@ant-design/pro-components";
 import { Col, ConfigProvider, Form, Modal, Row, Upload, message, notification } from "antd";
 import 'styles/reset.scss';
@@ -249,8 +249,10 @@ const ModalCompany = (props: IProps) => {
 
                                         >
                                             <div>
-                                                {loadingUpload ? <LoadingOutlined /> : <PlusOutlined />}
-                                                <div style={{ marginTop: 8 }}>Upload</div>
+                                                {loadingUpload ? (<LoadingOutlined />) : dataLogo.length > 0 ? (<EditOutlined />) : (<PlusOutlined />)}
+                                                <div style={{ marginTop: 8 }}>
+                                                    {dataLogo.length > 0 ? 'Modify' : 'Upload'}
+                                                </div>
                                             </div>
                                         </Upload>
                                     </ConfigProvider>

@@ -9,7 +9,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import styles from 'styles/client.module.scss';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/en'
+
 dayjs.extend(relativeTime)
+dayjs.locale('en')
 
 interface IProps {
     showPagination?: boolean;
