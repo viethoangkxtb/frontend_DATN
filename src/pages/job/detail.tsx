@@ -10,7 +10,10 @@ import { getLocationName } from "@/config/utils";
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import ApplyModal from "@/components/client/modal/apply.modal";
+import 'dayjs/locale/en'
+
 dayjs.extend(relativeTime)
+dayjs.locale('en')
 
 
 const ClientJobDetailPage = (props: any) => {
