@@ -97,7 +97,7 @@ const Header = (props: any) => {
                     {!isMobile ?
                         <div style={{ display: "flex", gap: 30 }}>
                             <div className={styles['brand']} >
-                                <FaReact onClick={() => navigate('/')} title='Hỏi Dân IT' />
+                                <FaReact onClick={() => navigate('/')} title='Nguyễn Việt Hoàng' />
                             </div>
                             <div className={styles['top-menu']}>
                                 <ConfigProvider
@@ -117,13 +117,22 @@ const Header = (props: any) => {
                                         items={items}
                                     />
                                 </ConfigProvider>
-                                <div className={styles['extra']}>
+                                <div className={styles['extra']} style={{ marginTop: 8 }}>
                                     {isAuthenticated === false ?
-                                        <Link to={'/login'}>Đăng Nhập</Link>
+                                        <Link 
+                                            to={'/login'}
+                                        style={{
+                                            fontFamily: "'Segoe UI'", // kế thừa font từ body
+                                        }}
+                                        >
+                                            Đăng Nhập
+                                        </Link>
                                         :
                                         <Dropdown menu={{ items: itemsDropdown }} trigger={['click']}>
                                             <Space style={{ cursor: "pointer" }}>
-                                                <span>Welcome {user?.name}</span>
+                                                <span>
+                                                    Welcome <strong>{user?.name}</strong>
+                                                </span>
                                                 <Avatar> {user?.name?.substring(0, 2)?.toUpperCase()} </Avatar>
                                             </Space>
                                         </Dropdown>
