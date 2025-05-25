@@ -167,7 +167,12 @@ const LayoutAdmin = () => {
                         collapsed={collapsed}
                         onCollapse={(value) => setCollapsed(value)}>
                         <div style={{ height: 32, margin: 16, textAlign: 'center' }}>
-                            <BugOutlined />  ADMIN
+                             <span
+                                style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center' }}
+                                onClick={() => navigate('/')}
+                              >
+                                <BugOutlined title='' /> &nbsp;IT Việc
+                              </span>
                         </div>
                         <Menu
                             selectedKeys={[activeMenu]}
