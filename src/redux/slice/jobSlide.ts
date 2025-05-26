@@ -15,11 +15,11 @@ interface IState {
 // First, create the thunk
 export const fetchJob = createAsyncThunk(
     'job/fetchJob',
-    async ({ query }: { query: string }) => {
-        const response = await callFetchJob(query);
+    async ({ query, isAdminPage = false }: { query: string; isAdminPage?: boolean }) => {
+        const response = await callFetchJob(query, isAdminPage);
         return response;
     }
-)
+);
 
 
 const initialState: IState = {

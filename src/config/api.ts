@@ -1,5 +1,6 @@
 import { IBackendRes, ICompany, IAccount, IUser, IModelPaginate, IGetAccount, IJob, IResume, IPermission, IRole, ISubscribers } from '@/types/backend';
 import axios from 'config/axios-customize';
+import queryString from 'query-string';
 
 /**
  * 
@@ -106,9 +107,16 @@ export const callDeleteJob = (id: string) => {
     return axios.delete<IBackendRes<IJob>>(`/api/v1/jobs/${id}`);
 }
 
-export const callFetchJob = (query: string) => {
-    return axios.get<IBackendRes<IModelPaginate<IJob>>>(`/api/v1/jobs?${query}`);
-}
+export const callFetchJob = (query: string, isAdminPage: boolean = false) => {
+  if (isAdminPage) {
+    const url = `/api/v1/jobs/hr?${query}`;
+    const queryObject = queryString.parse(query);
+    return axios.post<IBackendRes<IModelPaginate<IJob>>>(url, queryObject);
+  } else {
+    const url = `/api/v1/jobs?${query}`;
+    return axios.get<IBackendRes<IModelPaginate<IJob>>>(url);
+  }
+};
 
 export const callFetchJobById = (id: string) => {
     return axios.get<IBackendRes<IJob>>(`/api/v1/jobs/${id}`);

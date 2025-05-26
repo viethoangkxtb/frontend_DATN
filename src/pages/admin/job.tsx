@@ -223,7 +223,7 @@ const JobPage = () => {
                     dataSource={jobs}
                     request={async (params, sort, filter): Promise<any> => {
                         const query = buildQuery(params, sort, filter);
-                        dispatch(fetchJob({ query }))
+                        dispatch(fetchJob({ query, isAdminPage: true }))
                     }}
                     scroll={{ x: true }}
                     pagination={
