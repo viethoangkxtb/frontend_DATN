@@ -61,6 +61,9 @@ const JobPage = () => {
             title: 'Tên Job',
             dataIndex: 'name',
             sorter: true,
+            fieldProps: {
+                placeholder: 'Nhập tên công việc',
+            },
         },
         {
             title: 'Mức lương',
@@ -69,6 +72,13 @@ const JobPage = () => {
             render(dom, entity, index, action, schema) {
                 const str = "" + entity.salary;
                 return <>{str?.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} đ</>
+            },
+
+            search: {
+                transform: (value) => value, // nếu cần xử lý giá trị trước submit
+            },
+            fieldProps: {
+                placeholder: 'Nhập mức lương',
             },
         },
         {

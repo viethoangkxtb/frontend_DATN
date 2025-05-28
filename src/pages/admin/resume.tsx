@@ -62,7 +62,7 @@ const ResumePage = () => {
                         APPROVED: 'APPROVED',
                         REJECTED: 'REJECTED',
                     }}
-                    placeholder="Chọn level"
+                    placeholder="Chọn trạng thái"
                 />
             ),
         },

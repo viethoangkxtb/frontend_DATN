@@ -48,22 +48,6 @@ const PermissionPage = () => {
 
     const columns: ProColumns<IPermission>[] = [
         {
-            title: 'Id',
-            dataIndex: '_id',
-            width: 250,
-            render: (text, record, index, action) => {
-                return (
-                    <a href="#" onClick={() => {
-                        setOpenViewDetail(true);
-                        setDataInit(record);
-                    }}>
-                        {record._id}
-                    </a>
-                )
-            },
-            hideInSearch: true,
-        },
-        {
             title: 'Name',
             dataIndex: 'name',
             sorter: true,
@@ -160,6 +144,22 @@ const PermissionPage = () => {
                 </Space>
             ),
 
+        },
+        {
+            title: '',
+            dataIndex: '_id',
+            width: 100,
+            render: (text, record, index, action) => {
+                return (
+                    <a href="#" onClick={() => {
+                        setOpenViewDetail(true);
+                        setDataInit(record);
+                    }}>
+                        Chi tiết
+                    </a>
+                )
+            },
+            hideInSearch: true,
         },
     ];
 
