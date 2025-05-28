@@ -12,6 +12,8 @@ import { useNavigate } from "react-router-dom";
 import { fetchJob } from "@/redux/slice/jobSlide";
 import Access from "@/components/share/access";
 import { ALL_PERMISSIONS } from "@/config/permissions";
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 const JobPage = () => {
     const tableRef = useRef<ActionType>();
@@ -237,14 +239,44 @@ const JobPage = () => {
                     }
                     rowSelection={false}
                     toolBarRender={(_action, _rows): any => {
+                        const exportToExcel = () => {
+                            // Chuyển đổi dữ liệu để export (có thể lọc trường nếu cần)
+                            const exportData = jobs.map((job, index) => ({
+                                STT: index + 1 + (meta.current - 1) * meta.pageSize,
+                                "Tên công việc": job.name,
+                                "Mức lương": job.salary,
+                                "Level": job.level,
+                                "Trạng thái": job.isActive ? 'ACTIVE' : 'INACTIVE',
+                                "Ngày tạo": dayjs(job.createdAt).format('DD-MM-YYYY HH:mm:ss'),
+                                "Ngày cập nhật": dayjs(job.updatedAt).format('DD-MM-YYYY HH:mm:ss'),
+                            }));
+
+                            const worksheet = XLSX.utils.json_to_sheet(exportData);
+
+                            const workbook = XLSX.utils.book_new();
+                            XLSX.utils.book_append_sheet(workbook, worksheet, 'Jobs');
+                        
+                            const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+                            const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+                            saveAs(blob, 'Danh_sach_Jobs.xlsx');
+                        };
+                    
                         return (
-                            <Button
-                                icon={<PlusOutlined />}
-                                type="primary"
-                                onClick={() => navigate('upsert')}
-                            >
-                                Thêm mới
-                            </Button>
+                            <>
+                                <Button
+                                    icon={<PlusOutlined />}
+                                    type="primary"
+                                    onClick={() => navigate('upsert')}
+                                >
+                                    Thêm mới
+                                </Button>
+                                <Button
+                                    style={{ marginLeft: 8 }}
+                                    onClick={exportToExcel}
+                                >
+                                    Xuất Excel
+                                </Button>
+                            </>
                         );
                     }}
                 />

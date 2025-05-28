@@ -13,6 +13,8 @@ import ModalUser from "@/components/admin/user/modal.user";
 import ViewDetailUser from "@/components/admin/user/view.user";
 import Access from "@/components/share/access";
 import { ALL_PERMISSIONS } from "@/config/permissions";
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 const UserPage = () => {
     const [openModal, setOpenModal] = useState<boolean>(false);
@@ -209,14 +211,43 @@ const UserPage = () => {
                     }
                     rowSelection={false}
                     toolBarRender={(_action, _rows): any => {
+                        const exportToExcel = () => {
+                                                    // Chuyển đổi dữ liệu để export (có thể lọc trường nếu cần)
+                                                    const exportData = users.map((user, index) => ({
+                                                        STT: index + 1 + (meta.current - 1) * meta.pageSize,
+                                                        "Tên người dùng": user.name,
+                                                        "Email người dùng": user.email,
+                                                        "Tuổi": user.age,
+                                                        "Giới tính": user.gender,
+                                                        "Địa chỉ": user.address,
+                                                        "Role": (user.role as { _id: string; name: string })?.name || '',
+                                                    }));
+                        
+                                                    const worksheet = XLSX.utils.json_to_sheet(exportData);
+                        
+                                                    const workbook = XLSX.utils.book_new();
+                                                    XLSX.utils.book_append_sheet(workbook, worksheet, 'Users');
+                                                
+                                                    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+                                                    const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+                                                    saveAs(blob, 'Danh_sach_Users.xlsx');
+                                                };
                         return (
-                            <Button
-                                icon={<PlusOutlined />}
-                                type="primary"
-                                onClick={() => setOpenModal(true)}
-                            >
-                                Thêm mới
-                            </Button>
+                            <>
+                                <Button
+                                    icon={<PlusOutlined />}
+                                    type="primary"
+                                    onClick={() => setOpenModal(true)}
+                                >
+                                    Thêm mới
+                                </Button>
+                                <Button
+                                    style={{ marginLeft: 8 }}
+                                    onClick={exportToExcel}
+                                >
+                                    Xuất Excel
+                                </Button>
+                            </>
                         );
                     }}
                 />

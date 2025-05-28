@@ -44,6 +44,8 @@ const ViewDetailResume = (props: IProps) => {
         return () => form.resetFields();
     }, [dataInit])
 
+    const lastEdit = dataInit?.history?.length ? dataInit.history[dataInit.history.length - 1] : null;
+
     return (
         <>
             <Drawer
@@ -91,7 +93,21 @@ const ViewDetailResume = (props: IProps) => {
                     <Descriptions.Item label="Tên Công Ty">
                         {dataInit?.companyId?.name}
                     </Descriptions.Item>
+                    <Descriptions.Item label="Link CV">
+                      <a 
+                        href={`${import.meta.env.VITE_BACKEND_URL}/images/resume/${dataInit?.url}`} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                      >
+                        Xem CV
+                      </a>
+                    </Descriptions.Item>
                     <Descriptions.Item label="Ngày tạo">{dataInit && dataInit.createdAt ? dayjs(dataInit.createdAt).format('DD-MM-YYYY HH:mm:ss') : ""}</Descriptions.Item>
+
+                    <Descriptions.Item label="Người chỉnh sửa cuối cùng">
+                      {lastEdit?.updatedBy?.email || "Không có dữ liệu"}
+                    </Descriptions.Item>
+
                     <Descriptions.Item label="Ngày sửa">{dataInit && dataInit.updatedAt ? dayjs(dataInit.updatedAt).format('DD-MM-YYYY HH:mm:ss') : ""}</Descriptions.Item>
 
                 </Descriptions>

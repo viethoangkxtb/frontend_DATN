@@ -13,6 +13,8 @@ import { fetchResume } from "@/redux/slice/resumeSlide";
 import ViewDetailResume from "@/components/admin/resume/view.resume";
 import { ALL_PERMISSIONS } from "@/config/permissions";
 import Access from "@/components/share/access";
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 const ResumePage = () => {
     const tableRef = useRef<ActionType>();
@@ -45,22 +47,6 @@ const ResumePage = () => {
     }
 
     const columns: ProColumns<IResume>[] = [
-        {
-            title: 'Id',
-            dataIndex: '_id',
-            width: 250,
-            render: (text, record, index, action) => {
-                return (
-                    <a href="#" onClick={() => {
-                        setOpenViewDetail(true);
-                        setDataInit(record);
-                    }}>
-                        {record._id}
-                    </a>
-                )
-            },
-            hideInSearch: true,
-        },
         {
             title: 'Trạng Thái',
             dataIndex: 'status',
@@ -112,6 +98,22 @@ const ResumePage = () => {
             render: (text, record, index, action) => {
                 return (
                     <>{dayjs(record.updatedAt).format('DD-MM-YYYY HH:mm:ss')}</>
+                )
+            },
+            hideInSearch: true,
+        },
+        {
+            title: '',
+            dataIndex: '_id',
+            width: 100,
+            render: (text, record, index, action) => {
+                return (
+                    <a href="#" onClick={() => {
+                        setOpenViewDetail(true);
+                        setDataInit(record);
+                    }}>
+                        Chi tiết
+                    </a>
                 )
             },
             hideInSearch: true,
@@ -218,10 +220,46 @@ const ResumePage = () => {
                     }
                     rowSelection={false}
                     toolBarRender={(_action, _rows): any => {
-                        return (
-                            <></>
-                        );
-                    }}
+                                            const exportToExcel = () => {
+                                                const exportData = resumes.map((resume, index) => {
+                                                    // Lấy bản ghi lịch sử cuối cùng (nếu có)
+                                                    const lastEdit = resume.history && resume.history.length > 0
+                                                    ? resume.history[resume.history.length - 1]
+                                                    : null;
+
+                                                    return {
+                                                        STT: index + 1 + (meta.current - 1) * meta.pageSize,
+                                                        "Email ứng viên": resume.email,
+                                                        "Trạng thái": resume.status,
+                                                        "Tên công việc": (resume.jobId as { _id: string; name: string })?.name || '',
+                                                        "Tên công ty": (resume.companyId as { _id: string; name: string })?.name || '',
+                                                        "Link CV ứng viên": `${import.meta.env.VITE_BACKEND_URL}/images/resume/${resume?.url}`,
+                                                        "Ngày tạo": dayjs(resume.createdAt).format('DD-MM-YYYY HH:mm:ss'),
+                                                        "Người cập nhật cuối cùng": lastEdit?.updatedBy?.email || 'Không có dữ liệu',
+                                                        "Ngày cập nhật": dayjs(resume.updatedAt).format('DD-MM-YYYY HH:mm:ss'),
+                                                    };
+                                                });
+                                            
+                                                const worksheet = XLSX.utils.json_to_sheet(exportData);
+                                                const workbook = XLSX.utils.book_new();
+                                                XLSX.utils.book_append_sheet(workbook, worksheet, 'Resumes');
+                                            
+                                                const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+                                                const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+                                                saveAs(blob, 'Danh_sach_Resumes.xlsx');
+                                            };
+                                        
+                                            return (
+                                                <>
+                                                    <Button
+                                                        style={{ marginLeft: 8 }}
+                                                        onClick={exportToExcel}
+                                                    >
+                                                        Xuất Excel
+                                                    </Button>
+                                                </>
+                                            );
+                                        }}
                 />
             </Access>
             <ViewDetailResume
