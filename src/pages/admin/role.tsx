@@ -60,6 +60,9 @@ const RolePage = () => {
             title: 'Name',
             dataIndex: 'name',
             sorter: true,
+            fieldProps: {
+                placeholder: 'Nhập tên Role',
+            },
         },
         {
             title: 'Trạng thái',

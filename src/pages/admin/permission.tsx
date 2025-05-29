@@ -2,7 +2,7 @@ import DataTable from "@/components/client/data-table";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { IPermission } from "@/types/backend";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { ActionType, ProColumns } from '@ant-design/pro-components';
+import { ActionType, ProColumns, ProFormSelect } from '@ant-design/pro-components';
 import { Button, Popconfirm, Space, message, notification } from "antd";
 import { useState, useRef } from 'react';
 import dayjs from 'dayjs';
@@ -51,11 +51,17 @@ const PermissionPage = () => {
             title: 'Name',
             dataIndex: 'name',
             sorter: true,
+            fieldProps: {
+                placeholder: 'Nhập tên Permission',
+            },
         },
         {
             title: 'API',
             dataIndex: 'apiPath',
             sorter: true,
+            fieldProps: {
+                placeholder: 'Nhập api',
+            },
         },
         {
             title: 'Method',
@@ -63,9 +69,22 @@ const PermissionPage = () => {
             sorter: true,
             render(dom, entity, index, action, schema) {
                 return (
-                    <p style={{ paddingLeft: 10, fontWeight: 'bold', marginBottom: 0, color: colorMethod(entity?.method as string) }}>{entity?.method || ''}</p>
+                    <p style={{ paddingLeft: 10, fontWeight: 'bold', marginBottom: 0, color: colorMethod(entity?.method as string) }}>      {entity?.method || ''}</p>
                 )
             },
+            renderFormItem: (item, props, form) => (
+                <ProFormSelect
+                    showSearch
+                    allowClear
+                    valueEnum={{
+                        GET: 'GET',
+                        POST: 'POST',
+                        PATCH: 'PATCH',
+                        DELETE: 'DELETE',
+                    }}
+                    placeholder="Chọn method"
+                />
+            ),
         },
         {
             title: 'Module',

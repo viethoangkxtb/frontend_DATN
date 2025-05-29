@@ -57,28 +57,35 @@ const CompanyPage = () => {
             },
             hideInSearch: true,
         },
-        {
-            title: 'Id',
-            dataIndex: '_id',
-            width: 250,
-            render: (text, record, index, action) => {
-                return (
-                    <span>
-                        {record._id}
-                    </span>
-                )
-            },
-            hideInSearch: true,
-        },
+        // {
+        //     title: 'Id',
+        //     dataIndex: '_id',
+        //     width: 250,
+        //     render: (text, record, index, action) => {
+        //         return (
+        //             <span>
+        //                 {record._id}
+        //             </span>
+        //         )
+        //     },
+        //     hideInSearch: true,
+        // },
         {
             title: 'Name',
+            width: 200,
             dataIndex: 'name',
             sorter: true,
+            fieldProps: {
+                placeholder: 'Nhập tên công ty',
+            },
         },
         {
             title: 'Address',
             dataIndex: 'address',
             sorter: true,
+            fieldProps: {
+                placeholder: 'Nhập địa chỉ công ty',
+            },
         },
 
         {

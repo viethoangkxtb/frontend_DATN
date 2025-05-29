@@ -190,7 +190,7 @@ const JobPage = () => {
     const buildQuery = (params: any, sort: any, filter: any) => {
         const clone = { ...params };
         if (clone.name) clone.name = `/${clone.name}/i`;
-        if (clone.salary) clone.salary = `/${clone.salary}/i`;
+        if (clone.salary) clone.salary = parseInt(clone.salary);
         if (clone?.level?.length) {
             clone.level = clone.level.join(",");
         }
