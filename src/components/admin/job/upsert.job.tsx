@@ -26,6 +26,10 @@ const ViewUpsertJob = (props: any) => {
     const [dataUpdate, setDataUpdate] = useState<IJob | null>(null);
     const [form] = Form.useForm();
 
+    // const { currentUser } = props;
+    // const isSuperAdmin = currentUser?.role === 'SUPER_ADMIN';
+    // console.log(currentUser)
+
     useEffect(() => {
         const init = async () => {
             if (id) {
@@ -73,6 +77,14 @@ const ViewUpsertJob = (props: any) => {
     }
 
     const onFinish = async (values: any) => {
+        const start = dayjs(values.startDate, 'DD/MM/YYYY');
+        const end = dayjs(values.endDate, 'DD/MM/YYYY');
+
+        if (start.isAfter(end)) {
+            message.error("Ngày bắt đầu phải trước hoặc bằng ngày kết thúc!");
+            return;
+        }
+
         if (dataUpdate?._id) {
             //update
             const cp = values?.company?.value?.split('@#$');

@@ -49,22 +49,6 @@ const UserPage = () => {
 
     const columns: ProColumns<IUser>[] = [
         {
-            title: 'Id',
-            dataIndex: '_id',
-            width: 250,
-            render: (text, record, index, action) => {
-                return (
-                    <a href="#" onClick={() => {
-                        setOpenViewDetail(true);
-                        setDataInit(record);
-                    }}>
-                        {record._id}
-                    </a>
-                )
-            },
-            hideInSearch: true,
-        },
-        {
             title: 'Name',
             dataIndex: 'name',
             sorter: true,
@@ -100,7 +84,6 @@ const UserPage = () => {
             hideInSearch: true,
         },
         {
-
             title: 'Actions',
             hideInSearch: true,
             width: 50,
@@ -148,6 +131,22 @@ const UserPage = () => {
                 </Space>
             ),
 
+        },
+        {
+            title: '',
+            dataIndex: '_id',
+            width: 100,
+            render: (text, record, index, action) => {
+                return (
+                    <a href="#" onClick={() => {
+                        setOpenViewDetail(true);
+                        setDataInit(record);
+                    }}>
+                        Chi tiết
+                    </a>
+                )
+            },
+            hideInSearch: true,
         },
     ];
 

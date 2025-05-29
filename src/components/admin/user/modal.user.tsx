@@ -170,10 +170,11 @@ const ModalUser = (props: IProps) => {
                             label="Email"
                             name="email"
                             rules={[
-                                { required: true, message: 'Vui lòng không bỏ trống' },
+                                { required: dataInit?._id ? false : true, message: 'Vui lòng không bỏ trống' },
                                 { type: 'email', message: 'Vui lòng nhập email hợp lệ' }
                             ]}
                             placeholder="Nhập email"
+                            disabled={dataInit?._id ? true : false}
                         />
                     </Col>
                     <Col lg={12} md={12} sm={24} xs={24}>
