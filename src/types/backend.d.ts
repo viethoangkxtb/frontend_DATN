@@ -157,7 +157,7 @@ export interface IRole {
     updatedAt?: string;
 }
 
-export interface ISubscribers {
+export interface ISubscriber {
     _id?: string;
     name?: string;
     email?: string;

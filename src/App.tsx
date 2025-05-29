@@ -30,6 +30,7 @@ import ClientJobPage from './pages/job';
 import ClientJobDetailPage from './pages/job/detail';
 import ClientCompanyPage from './pages/company';
 import ClientCompanyDetailPage from './pages/company/detail';
+import SubscriberPage from './pages/admin/subscriber';
 
 const LayoutClient = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -141,6 +142,13 @@ export default function App() {
           element:
             <ProtectedRoute>
               <RolePage />
+            </ProtectedRoute>
+        },
+        {
+          path: "subscriber",
+          element:
+            <ProtectedRoute>
+              <SubscriberPage />
             </ProtectedRoute>
         }
       ],

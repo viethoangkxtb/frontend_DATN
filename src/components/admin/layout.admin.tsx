@@ -12,6 +12,7 @@ import {
     HeartTwoTone,
     BugOutlined,
     ScheduleOutlined,
+    ProfileOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Dropdown, Space, message, Avatar, Button } from 'antd';
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
@@ -67,7 +68,12 @@ const LayoutAdmin = () => {
 
             const viewPermission = permissions.find(item =>
                 item.apiPath === ALL_PERMISSIONS.PERMISSIONS.GET_PAGINATE.apiPath
-                && item.method === ALL_PERMISSIONS.USERS.GET_PAGINATE.method
+                && item.method === ALL_PERMISSIONS.PERMISSIONS.GET_PAGINATE.method
+            )
+
+            const viewSubscriber = permissions.find(item =>
+                item.apiPath === ALL_PERMISSIONS.SUBSCRIBERS.GET_PAGINATE.apiPath
+                && item.method === ALL_PERMISSIONS.SUBSCRIBERS.GET_PAGINATE.method
             )
 
             const full = [
@@ -108,7 +114,11 @@ const LayoutAdmin = () => {
                     key: '/admin/role',
                     icon: <ExceptionOutlined />
                 }] : []),
-
+                ...(viewSubscriber ? [{
+                    label: <Link to='/admin/subscriber'>Subscriber</Link>,
+                    key: '/admin/subscriber',
+                    icon: <ProfileOutlined />
+                }] : []),
 
 
             ];
