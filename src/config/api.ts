@@ -1,4 +1,4 @@
-import { IBackendRes, ICompany, IAccount, IUser, IModelPaginate, IGetAccount, IJob, IResume, IPermission, IRole, ISubscriber } from '@/types/backend';
+import { IBackendRes, ICompany, IAccount, IUser, IModelPaginate, IGetAccount, IJob, IResume, IPermission, IRole, ISubscriber, IApproveEmailResponse, IApprovedNote, IApproveEmailPayload } from '@/types/backend';
 import axios from 'config/axios-customize';
 import queryString from 'query-string';
 
@@ -132,6 +132,11 @@ export const callCreateResume = (url: string, companyId: any, jobId: any) => {
 
 export const callUpdateResumeStatus = (id: any, status: string) => {
     return axios.patch<IBackendRes<IResume>>(`/api/v1/resumes/${id}`, { status })
+}
+
+export const callSendApproveEmail = (payload: IApproveEmailPayload) => {
+    console.log("Note nè", payload)
+    return axios.post<IBackendRes<IApproveEmailResponse>>(`/api/v1/mail/approve-email`, payload)
 }
 
 export const callDeleteResume = (id: string) => {

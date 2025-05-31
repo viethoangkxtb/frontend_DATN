@@ -104,7 +104,10 @@ export interface IJob {
 export interface IResume {
     _id?: string;
     email: string;
-    userId: string;
+    userId: string | {
+        _id: string;
+        name: string;
+    };
     url: string;
     status: string;
     companyId: string | {
@@ -126,6 +129,8 @@ export interface IResume {
     deletedAt?: boolean | null;
     createdAt?: string;
     updatedAt?: string;
+    nameLogin?: string;
+    userLogin?: string;
 }
 
 export interface IPermission {
@@ -167,4 +172,38 @@ export interface ISubscriber {
     deletedAt?: boolean | null;
     createdAt?: string;
     updatedAt?: string;
+}
+
+export interface IApprovedNote {
+  companyName: string;
+  name: string;
+  jobTitle: string;
+  interviewTime: string;
+  interviewType: string;
+  interviewLocation: string;
+  jobLink: string;
+  senderName: string;
+  senderTitle: string;
+  senderPhone: string;
+  senderEmail: string;
+}
+
+interface IApproveEmailResponse {
+  message: string;
+}
+
+interface IApproveEmailPayload {
+  to: string;
+  from: string;
+  companyName: string;
+  name: string;
+  jobTitle: string;
+  interviewTime: string;
+  interviewType: string;
+  interviewLocation: string;
+  jobLink: string;
+  senderName: string;
+  senderTitle: string;
+  senderPhone: string;
+  senderEmail: string;
 }
