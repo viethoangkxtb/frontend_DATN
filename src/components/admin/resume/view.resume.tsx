@@ -111,11 +111,11 @@ const ViewDetailResume = (props: IProps) => {
     
     const handleReviewingSubmit = async () => {
       setIsSubmit(true);
-      const status = form.getFieldValue('status');
+      const status = form.getFieldValue("status");
       const res = await callUpdateResumeStatus(dataInit?._id, status);
+    
       if (res.data) {
-        message.success("Cập nhật REVIEWING thành công");
-        setModalReviewingVisible(false);
+        message.success("Đã cập nhật trạng thái.");
         onClose(false);
         reloadTable();
       } else {
