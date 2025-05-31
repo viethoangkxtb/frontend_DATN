@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { setUserLoginInfo } from '@/redux/slice/accountSlide';
 import styles from 'styles/auth.module.scss';
 import { useAppSelector } from '@/redux/hooks';
+import { BugOutlined } from '@ant-design/icons';
 
 const LoginPage = () => {
     const navigate = useNavigate();
@@ -51,11 +52,16 @@ const LoginPage = () => {
             <main className={styles.main}>
                 <div className={styles.container}>
                     <section className={styles.wrapper}>
-                        <div className={styles.heading}>
-                            <h2 className={`${styles.text} ${styles["text-large"]}`} style={{ fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif' }}>Đăng Nhập</h2>
-                            <Divider />
-
+                        <div className={styles.heading} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <h2 className={`${styles.text} ${styles["text-large"]}`} style={{ fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif', margin: 0 }}>Đăng Nhập</h2>
+                            <span
+                                style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', fontSize: 16 }}
+                                onClick={() => navigate('/')}
+                            >
+                                <BugOutlined style={{ fontSize: 18 }} /> &nbsp;IT Việc
+                            </span>
                         </div>
+                        <Divider />
                         <Form
                             name="basic"
                             // style={{ maxWidth: 600, margin: '0 auto' }}
