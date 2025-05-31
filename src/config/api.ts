@@ -1,4 +1,4 @@
-import { IBackendRes, ICompany, IAccount, IUser, IModelPaginate, IGetAccount, IJob, IResume, IPermission, IRole, ISubscriber, IApproveEmailResponse, IApprovedNote, IApproveEmailPayload } from '@/types/backend';
+import { IBackendRes, ICompany, IAccount, IUser, IModelPaginate, IGetAccount, IJob, IResume, IPermission, IRole, ISubscriber, IApproveEmailResponse, IApprovedNote, IApproveEmailPayload, IRejectEmailPayload, IRejectEmailResponse } from '@/types/backend';
 import axios from 'config/axios-customize';
 import queryString from 'query-string';
 
@@ -135,8 +135,13 @@ export const callUpdateResumeStatus = (id: any, status: string) => {
 }
 
 export const callSendApproveEmail = (payload: IApproveEmailPayload) => {
-    console.log("Note nè", payload)
+    // console.log("Note nè", payload)
     return axios.post<IBackendRes<IApproveEmailResponse>>(`/api/v1/mail/approve-email`, payload)
+}
+
+export const callSendRejectEmail = (payload: IRejectEmailPayload) => {
+    // console.log("Note nè", payload)
+    return axios.post<IBackendRes<IRejectEmailResponse>>(`/api/v1/mail/reject-email`, payload)
 }
 
 export const callDeleteResume = (id: string) => {

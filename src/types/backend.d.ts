@@ -188,11 +188,11 @@ export interface IApprovedNote {
   senderEmail: string;
 }
 
-interface IApproveEmailResponse {
+export interface IApproveEmailResponse {
   message: string;
 }
 
-interface IApproveEmailPayload {
+export interface IApproveEmailPayload {
   to: string;
   from: string;
   companyName: string;
@@ -206,4 +206,25 @@ interface IApproveEmailPayload {
   senderTitle: string;
   senderPhone: string;
   senderEmail: string;
+}
+
+export interface IRejectEmailResponse {
+  message: string;
+}
+
+export interface IRejectEmailPayload {
+  to: string;
+  from: string;
+  companyName: string;
+  name: string;
+  jobTitle: string;
+  senderName: string;
+  senderTitle: string;
+  senderPhone: string;
+  senderEmail: string;
+  customMessage?: string;
+}
+
+export interface IRejectNote {
+
 }

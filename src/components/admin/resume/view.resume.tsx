@@ -1,6 +1,6 @@
-import { callSendApproveEmail, callUpdateResumeStatus } from "@/config/api";
+import { callSendApproveEmail, callSendRejectEmail, callUpdateResumeStatus } from "@/config/api";
 import { convertSlug } from "@/config/utils";
-import { IApproveEmailPayload, IResume } from "@/types/backend";
+import { IApproveEmailPayload, IRejectEmailPayload, IResume } from "@/types/backend";
 import { Row, Col, Badge, Button, Descriptions, Drawer, Form, Input, Modal, Select, message, notification } from "antd";
 import dayjs from 'dayjs';
 import { useState, useEffect } from 'react';
@@ -40,7 +40,18 @@ const ViewDetailResume = (props: IProps) => {
         senderPhone: "",
         senderEmail: ""
     });
-    const [rejectedNote, setRejectedNote] = useState("");
+    const [rejectedNote, setRejectedNote] = useState({
+        to: "",
+        from: "",
+        companyName: "",
+        name: "",
+        jobTitle: "",
+        senderName: "",
+        senderTitle: "",
+        senderPhone: "",
+        senderEmail: "",
+        customMessage: ""
+    });
 
     // const handleChangeStatus = async () => {
     //     setIsSubmit(true);
@@ -101,7 +112,7 @@ const ViewDetailResume = (props: IProps) => {
     const handleReviewingSubmit = async () => {
       setIsSubmit(true);
       const status = form.getFieldValue('status');
-      const res = await callUpdateResumeStatus(dataInit?._id, reviewingNote);
+      const res = await callUpdateResumeStatus(dataInit?._id, status);
       if (res.data) {
         message.success("Cập nhật REVIEWING thành công");
         setModalReviewingVisible(false);
@@ -132,7 +143,7 @@ const ViewDetailResume = (props: IProps) => {
 
       const sendEmail = await callSendApproveEmail(payload);
       if (sendEmail.data) {
-        message.success("Cập nhật APPROVED thành công");
+        message.success("Gửi approve email thành công");
         setModalApprovedVisible(false);
         onClose(false);
         reloadTable();
@@ -145,7 +156,8 @@ const ViewDetailResume = (props: IProps) => {
     
     const handleRejectedSubmit = async () => {
       setIsSubmit(true);
-      const res = await callUpdateResumeStatus(dataInit?._id, rejectedNote);
+      const status = form.getFieldValue('status');
+      const res = await callUpdateResumeStatus(dataInit?._id, status);
       if (res.data) {
         message.success("Cập nhật REJECTED thành công");
         setModalRejectedVisible(false);
@@ -154,6 +166,21 @@ const ViewDetailResume = (props: IProps) => {
       } else {
         notification.error({ message: "Lỗi", description: res.message });
       }
+
+      const payload: IRejectEmailPayload = {
+        ...rejectedNote,
+      };
+
+      const sendEmail = await callSendRejectEmail(payload);
+      if (sendEmail.data) {
+        message.success("Gửi reject email thành công");
+        setModalRejectedVisible(false);
+        onClose(false);
+        reloadTable();
+      } else {
+        notification.error({ message: "Lỗi", description: sendEmail.message });
+      }
+
       setIsSubmit(false);
     };
 
@@ -170,6 +197,17 @@ const ViewDetailResume = (props: IProps) => {
             jobTitle: dataInit?.jobId.name || '',
             companyName: dataInit?.companyId.name || '',
             jobLink,
+            senderEmail: dataInit?.userLogin,
+            senderName: dataInit?.nameLogin,
+            }));
+
+            setRejectedNote((prev) => ({
+            ...prev,
+            senderTitle: "Từ chối tuyển dụng",
+            to: dataInit?.email || '',
+            name: typeof dataInit?.userId === 'string' ? '' : dataInit?.userId.name || '',
+            jobTitle: dataInit?.jobId.name || '',
+            companyName: dataInit?.companyId.name || '',
             senderEmail: dataInit?.userLogin,
             senderName: dataInit?.nameLogin,
             }));
@@ -203,7 +241,18 @@ const ViewDetailResume = (props: IProps) => {
                         senderEmail: ""
                     });
                     setReviewingNote("");
-                    setRejectedNote("");
+                    setRejectedNote({
+                        to: "",
+                        from: "",
+                        companyName: "",
+                        name: "",
+                        jobTitle: "",
+                        senderName: "",
+                        senderTitle: "",
+                        senderPhone: "",
+                        senderEmail: "",
+                        customMessage: ""
+                    });
                     form.resetFields(); 
                 }}
                 open={open}
@@ -405,19 +454,104 @@ const ViewDetailResume = (props: IProps) => {
 
             {/* Modal REJECTED */}
             <Modal
-              title="Nhập lý do REJECTED"
+              title="Nhập thông tin từ chối ứng viên"
               open={modalRejectedVisible}
               onCancel={() => setModalRejectedVisible(false)}
               onOk={handleRejectedSubmit}
               confirmLoading={isSubmit}
               zIndex={1100}
+              width={800}
             >
-              <Input.TextArea
-                rows={4}
-                placeholder="Lý do từ chối"
-                value={rejectedNote}
-                onChange={(e) => setRejectedNote(e.target.value)}
-              />
+              <Form layout="vertical">
+                <Row gutter={16}>
+                  {/* Cột trái */}
+                  <Col span={12}>
+                    <Form.Item label="To">
+                      <Input value={rejectedNote.to} disabled />
+                    </Form.Item>
+                    <Form.Item label="Tên công việc">
+                      <Input
+                        placeholder="Tên công việc"
+                        value={rejectedNote.jobTitle}
+                        disabled
+                        onChange={(e) =>
+                          setRejectedNote({ ...rejectedNote, jobTitle: e.target.value })
+                        }
+                      />
+                    </Form.Item>
+                    <Form.Item label="Tên người gửi">
+                      <Input
+                        placeholder="Tên người gửi"
+                        value={rejectedNote.senderName}
+                        onChange={(e) =>
+                          setRejectedNote({ ...rejectedNote, senderName: e.target.value })
+                        }
+                      />
+                    </Form.Item>
+                    <Form.Item label="Tiêu đề email">
+                      <Input
+                        placeholder="Tiêu đề"
+                        value={rejectedNote.senderTitle}
+                        onChange={(e) =>
+                          setRejectedNote({ ...rejectedNote, senderTitle: e.target.value })
+                        }
+                      />
+                    </Form.Item>
+                    <Form.Item label="Email liên hệ">
+                      <Input
+                        placeholder="Email liên hệ"
+                        value={rejectedNote.senderEmail}
+                        onChange={(e) =>
+                          setRejectedNote({ ...rejectedNote, senderEmail: e.target.value })
+                        }
+                      />
+                    </Form.Item>
+                  </Col>
+                      
+                  {/* Cột phải */}
+                  <Col span={12}>
+                    <Form.Item label="Tên ứng viên">
+                      <Input
+                        placeholder="Tên ứng viên"
+                        value={rejectedNote.name || ''}
+                        disabled
+                        onChange={(e) =>
+                          setRejectedNote({ ...rejectedNote, name: e.target.value })
+                        }
+                      />
+                    </Form.Item>
+                    <Form.Item label="Tên công ty">
+                      <Input
+                        placeholder="Tên công ty"
+                        value={rejectedNote.companyName || ''}
+                        disabled
+                        onChange={(e) =>
+                          setRejectedNote({ ...rejectedNote, companyName: e.target.value })
+                        }
+                      />
+                    </Form.Item>
+                    <Form.Item label="Số điện thoại người gửi">
+                      <Input
+                        placeholder="Số điện thoại"
+                        value={rejectedNote.senderPhone}
+                        onChange={(e) =>
+                          setRejectedNote({ ...rejectedNote, senderPhone: e.target.value })
+                        }
+                      />
+                    </Form.Item>
+                    <Form.Item label="Ghi chú từ chối (tùy chọn)">
+                      <Input.TextArea
+                        placeholder="Ví dụ: Ứng viên cần cải thiện kỹ năng hoặc có thêm kinh nghiệm thực tế..."
+                        value={rejectedNote.customMessage}
+                        onChange={(e) =>
+                          setRejectedNote({ ...rejectedNote, customMessage: e.target.value })
+                        }
+                        rows={4}
+                      />
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </Form>
             </Modal>
         </>
     )
