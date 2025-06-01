@@ -31,11 +31,7 @@ export interface IAccount {
             apiPath: string;
             method: string;
             module: string;
-        }[];
-        age?: number;
-        gender?: string;
-        address?: string;
-        company?: string;
+        }[]
     }
 }
 

@@ -167,11 +167,11 @@ const UserUpdateInfo = () => {
         form.setFieldsValue({
             name: user.name,
             email: user.email,
-            age: user.age,
-            gender: user.gender,
-            address: user.address,
+            // age: user.age,
+            // gender: user.gender,
+            // address: user.address,
             role: user.role?.name,
-            company: user.company
+            // company: user.company
         });
     }, [user]);
 
