@@ -29,7 +29,11 @@ interface IState {
             apiPath: string;
             method: string;
             module: string;
-        }[]
+        }[];
+        age?: number;
+        gender?: string;
+        address?: string;
+        company?: string;
     };
     activeMenu: string;
 }
@@ -48,6 +52,10 @@ const initialState: IState = {
             name: "",
         },
         permissions: [],
+        age: undefined,
+        gender: '',
+        address: '',
+        company: ''
     },
 
     activeMenu: 'home'
@@ -110,6 +118,10 @@ export const accountSlide = createSlice({
                 state.user.name = action.payload.user?.name;
                 state.user.role = action?.payload?.user?.role;
                 state.user.permissions = action?.payload?.user?.permissions;
+                state.user.age = action.payload.user?.age;
+                state.user.gender = action.payload.user?.gender;
+                state.user.address = action.payload.user?.address;
+                state.user.company = action.payload.user?.company;
             }
         })
 

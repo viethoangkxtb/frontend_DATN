@@ -24,14 +24,18 @@ export interface IAccount {
         role: {
             _id: string;
             name: string;
-        }
+        };
         permissions: {
             _id: string;
             name: string;
             apiPath: string;
             method: string;
             module: string;
-        }[]
+        }[];
+        age?: number;
+        gender?: string;
+        address?: string;
+        company?: string;
     }
 }
 
@@ -227,4 +231,13 @@ export interface IRejectEmailPayload {
 
 export interface IRejectNote {
 
+}
+
+export interface IChangePasswordResponse {
+  message: string;
+}
+
+export interface IChangePasswordPayload {
+  oldPassword: string;
+  newPassword: string;
 }

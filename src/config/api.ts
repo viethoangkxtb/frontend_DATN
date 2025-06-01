@@ -1,4 +1,4 @@
-import { IBackendRes, ICompany, IAccount, IUser, IModelPaginate, IGetAccount, IJob, IResume, IPermission, IRole, ISubscriber, IApproveEmailResponse, IApprovedNote, IApproveEmailPayload, IRejectEmailPayload, IRejectEmailResponse } from '@/types/backend';
+import { IBackendRes, ICompany, IAccount, IUser, IModelPaginate, IGetAccount, IJob, IResume, IPermission, IRole, ISubscriber, IApproveEmailResponse, IApprovedNote, IApproveEmailPayload, IRejectEmailPayload, IRejectEmailResponse, IChangePasswordResponse, IChangePasswordPayload } from '@/types/backend';
 import axios from 'config/axios-customize';
 import queryString from 'query-string';
 
@@ -24,6 +24,11 @@ export const callRefreshToken = () => {
 
 export const callLogout = () => {
     return axios.post<IBackendRes<string>>('/api/v1/auth/logout')
+}
+
+
+export const callChangePassword = (payload: IChangePasswordPayload) => {
+    return axios.post<IBackendRes<IChangePasswordResponse>>('/api/v1/auth/change-password', payload)
 }
 
 /**
