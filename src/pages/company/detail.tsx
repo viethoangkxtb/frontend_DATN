@@ -6,6 +6,7 @@ import styles from 'styles/client.module.scss';
 import parse from 'html-react-parser';
 import { Col, Divider, Row, Skeleton } from "antd";
 import { EnvironmentOutlined } from "@ant-design/icons";
+import JobOfCompanyCard from "@/components/client/card/jobOfCompany.card";
 
 
 const ClientCompanyDetailPage = (props: any) => {
@@ -62,6 +63,9 @@ const ClientCompanyDetailPage = (props: any) => {
                                     </div>
                                     <div>
                                         {companyDetail?.name}
+                                    </div>
+                                    <div style={{ marginTop: 30 }}>
+                                        <JobOfCompanyCard companyName={companyDetail?.name || ""} />
                                     </div>
                                 </div>
                             </Col>

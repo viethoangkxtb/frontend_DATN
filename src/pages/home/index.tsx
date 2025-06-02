@@ -11,10 +11,10 @@ const HomePage = () => {
                 <SearchClient />
             </div>
             <Divider />
-            <CompanyCard />
+            <JobCard />            
             <div style={{ margin: 50 }}></div>
             <Divider />
-            <JobCard />
+            <CompanyCard />
         </div>
     )
 }
