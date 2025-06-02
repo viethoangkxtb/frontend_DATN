@@ -65,6 +65,16 @@ const UserPage = () => {
             },
         },
         {
+            title: 'Company',
+            dataIndex: ['company', 'name'],
+            sorter: true,
+            render: (_text, record) => record.company?.name || '—',
+            fieldProps: {
+              placeholder: 'Nhập công ty',
+            },
+            hideInSearch: true,
+        },
+        {
             title: 'Vai trò',
             dataIndex: ["role", "name"],
             sorter: true,
