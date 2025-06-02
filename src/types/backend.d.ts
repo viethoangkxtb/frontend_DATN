@@ -31,7 +31,11 @@ export interface IAccount {
             apiPath: string;
             method: string;
             module: string;
-        }[]
+        }[];
+        company: {
+            _id: string;
+            name: string;
+        };
     }
 }
 

@@ -1,9 +1,9 @@
-import { Button, Col, Form, Input, Modal, Row, Select, Table, Tabs, message, notification } from "antd";
+import { Button, Col, Form, Input, InputNumber, Modal, Row, Select, Table, Tabs, message, notification } from "antd";
 import { isMobile } from "react-device-detect";
 import type { TabsProps } from 'antd';
-import { IResume } from "@/types/backend";
+import { ICompany, IResume, IUser } from "@/types/backend";
 import { useState, useEffect } from 'react';
-import { callChangePassword, callFetchResumeByUser, callGetSubscriberSkills, callUpdateSubscriber } from "@/config/api";
+import { callChangePassword, callFetchCompany, callFetchResumeByUser, callFetchUserById, callGetSubscriberSkills, callUpdateSubscriber, callUpdateUserForNormal } from "@/config/api";
 import type { ColumnsType } from 'antd/es/table';
 import dayjs from 'dayjs';
 import { MonitorOutlined } from "@ant-design/icons";
@@ -158,108 +158,176 @@ const ChangePassword = () => {
 
 
 const UserUpdateInfo = () => {
-    const [form] = Form.useForm();
-    const user = useAppSelector(state => state.account.user);
+  const user = useAppSelector((state) => state.account.user);
+  const [form] = Form.useForm();
+  const [loading, setLoading] = useState<boolean>(true);
+  const [companies, setCompanies] = useState<ICompany[]>([]);
 
-    console.log(user)
+  // Fetch user data and company list
+  useEffect(() => {
+    const fetchData = async () => {
+      if (user?._id) {
+        try {
+          // Fetch user data
+          const userRes = await callFetchUserById(user._id);
+          if (userRes.data) {
+            form.setFieldsValue({
+              name: userRes.data.name,
+              email: userRes.data.email,
+              age: userRes.data.age,
+              gender: userRes.data.gender,
+              address: userRes.data.address,
+              role: userRes.data.role?.name || '',
+              company: userRes.data.company?._id || '0123456789', // Set company ID
+            });
+          }
 
-    useEffect(() => {
-        form.setFieldsValue({
-            name: user.name,
-            email: user.email,
-            // age: user.age,
-            // gender: user.gender,
-            // address: user.address,
-            role: user.role?.name,
-            // company: user.company
-        });
-    }, [user]);
-
-    const onFinish = async (values: any) => {
-        const res = { success: true }; // giả lập gọi API
-
-        if (res.success) {
-            message.success("Cập nhật thông tin thành công!");
-        } else {
-            message.error("Cập nhật thất bại. Vui lòng thử lại.");
+          // Fetch company list
+          const companyRes = await callFetchCompany('current=1&pageSize=1000');
+          if (companyRes.data?.result) {
+            setCompanies([
+            { _id: '0123456789', name: 'Không ở công ty nào', logo: "123" },
+            ...companyRes.data.result,
+          ]);
+          }
+        } catch (error) {
+          console.error("Lỗi khi lấy dữ liệu:", error);
+          message.error("Không thể tải thông tin người dùng hoặc danh sách công ty!");
+        } finally {
+          setLoading(false);
         }
+      }
     };
 
-    return (
-        <Form layout="vertical" form={form} onFinish={onFinish}>
-            <Row gutter={[16, 16]}>
-                <Col span={12}>
-                    <Form.Item
-                        label="Tên"
-                        name="name"
-                        rules={[{ required: true, message: 'Vui lòng nhập tên' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                </Col>
+    fetchData();
+  }, [user, form]);
 
-                <Col span={12}>
-                    <Form.Item label="Email" name="email">
-                        <Input disabled />
-                    </Form.Item>
-                </Col>
+  // Handle form submission
+  const onFinish = async (values: any) => {
+    console.log("onFinish", values)
+    if (user?._id) {
+      try {
+        const selectedCompany = companies.find((company) => company._id === values.company);
 
-                <Col span={12}>
-                    <Form.Item
-                        label="Tuổi"
-                        name="age"
-                        rules={[{ required: true, message: 'Vui lòng nhập tuổi' }]}
-                    >
-                        <Input type="number" min={0} />
-                    </Form.Item>
-                </Col>
+        const payload: Partial<IUser> = {
+          name: values.name,
+          age: values.age,
+          gender: values.gender,
+          address: values.address,
+          ...(selectedCompany && selectedCompany._id && selectedCompany.name && selectedCompany._id !== '0123456789'
+            ? { company: { _id: selectedCompany._id, name: selectedCompany.name } }
+            : {}),
+        };
 
-                <Col span={12}>
-                    <Form.Item
-                        label="Giới tính"
-                        name="gender"
-                        rules={[{ required: true, message: 'Vui lòng chọn giới tính' }]}
-                    >
-                        <Select options={[
-                            { label: 'MALE', value: 'male' },
-                            { label: 'FEMALE', value: 'female' },
-                            { label: 'Khác', value: 'other' },
-                        ]} />
-                    </Form.Item>
-                </Col>
+        console.log("payload", payload)
 
-                <Col span={12}>
-                    <Form.Item
-                        label="Địa chỉ"
-                        name="address"
-                        rules={[{ required: true, message: 'Vui lòng nhập địa chỉ' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                </Col>
+        await callUpdateUserForNormal(user._id, payload);
+        message.success("Cập nhật thông tin thành công!");
+      } catch (error) {
+        console.error("Lỗi khi cập nhật người dùng:", error);
+        message.error("Cập nhật thông tin thất bại!");
+      }
+    }
+  };
 
-                <Col span={12}>
-                    <Form.Item label="Vai trò" name="role">
-                        <Input disabled />
-                    </Form.Item>
-                </Col>
+  if (loading) return <div>Đang tải dữ liệu...</div>;
 
-                <Col span={12}>
-                    <Form.Item
-                        label="Công ty"
-                        name="company"
-                        rules={[{ required: true, message: 'Vui lòng nhập tên công ty' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                </Col>
+  return (
+    <Form
+      form={form}
+      layout="vertical"
+      onFinish={onFinish}
+      initialValues={{
+        name: '',
+        email: '',
+        age: undefined,
+        gender: '',
+        address: '',
+        role: '',
+        company: '',
+      }}
+    >
+      <h2>Thông tin người dùng</h2>
+      <Row gutter={[16, 16]}>
+        <Col xs={24} sm={12}>
+          <Form.Item label="Tên" name="name">
+            <Input />
+          </Form.Item>
 
-                <Col span={24}>
-                    <Button type="primary" htmlType="submit">Cập nhật</Button>
-                </Col>
-            </Row>
-        </Form>
-    );
+          <Form.Item
+            label="Tuổi"
+            name="age"
+            rules={[{ required: true, message: 'Vui lòng nhập tuổi' }, { type: 'number', min: 0, message: 'Tuổi phải là số không âm' }]}
+          >
+            <InputNumber style={{ width: '100%' }} />
+          </Form.Item>
+
+          <Form.Item
+            label="Giới tính"
+            name="gender"
+            rules={[{ required: true, message: 'Vui lòng chọn giới tính' }]}
+          >
+            <Select>
+              <Select.Option value="male">Nam</Select.Option>
+              <Select.Option value="female">Nữ</Select.Option>
+              <Select.Option value="other">Khác</Select.Option>
+            </Select>
+          </Form.Item>
+        </Col>
+
+        <Col xs={24} sm={12}>
+          <Form.Item label="Email" name="email">
+            <Input disabled />
+          </Form.Item>
+          
+          <Form.Item
+            label="Địa chỉ"
+            name="address"
+            rules={[{ required: false, message: 'Vui lòng nhập địa chỉ' }]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Công ty"
+            name="company"
+            rules={[{ required: true, message: 'Vui lòng chọn công ty' }]}
+          >
+            <Select
+              showSearch
+              placeholder="Chọn công ty"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                (option?.children as unknown as string)?.toLowerCase().includes(input.toLowerCase())
+              }
+            >
+              {companies.map((company) => (
+                <Select.Option key={company._id} value={company._id}>
+                  {company.name}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            label="Vai trò"
+            name="role"
+            rules={[{ required: true, message: 'Vui lòng nhập vai trò' }]}
+          >
+            <Input disabled />
+          </Form.Item>
+        </Col>
+
+        <Col xs={24} style={{ textAlign: 'right' }}>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Cập nhật
+            </Button>
+          </Form.Item>
+        </Col>
+      </Row>
+    </Form>
+  );
 };
 
 
