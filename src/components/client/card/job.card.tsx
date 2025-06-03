@@ -5,7 +5,7 @@ import { EnvironmentOutlined, ThunderboltOutlined } from '@ant-design/icons';
 import { Card, Col, Empty, Pagination, Row, Spin } from 'antd';
 import { useState, useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import styles from 'styles/client.module.scss';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -30,6 +30,29 @@ const JobCard = (props: IProps) => {
     const [filter, setFilter] = useState("");
     const [sortQuery, setSortQuery] = useState("sort=-updatedAt");
     const navigate = useNavigate();
+
+    const [searchParams] = useSearchParams();
+
+    useEffect(() => {
+        // Cập nhật filter mỗi lần searchParams thay đổi
+        const queryParams: string[] = [];
+
+        if (searchParams.get("skills")) {
+            queryParams.push(`skills=${searchParams.get("skills")}`);
+        }
+        if (searchParams.get("location")) {
+            queryParams.push(`location=${searchParams.get("location")}`);
+        }
+        if (searchParams.get("name")) {
+            queryParams.push(`name=${searchParams.get("name")}`);
+        }
+        if (searchParams.get("company.name")) {
+            queryParams.push(`company.name=${searchParams.get("company.name")}`);
+        }
+
+        setFilter(queryParams.join("&"));
+        setCurrent(1); // reset về trang đầu khi lọc
+    }, [searchParams]);
 
     useEffect(() => {
         fetchJob();
