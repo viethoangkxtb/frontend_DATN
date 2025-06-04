@@ -1,9 +1,9 @@
-import { Button, Col, Form, Input, InputNumber, Modal, Row, Select, Table, Tabs, message, notification } from "antd";
+import { Button, Col, Form, Input, InputNumber, Modal, Popconfirm, Row, Select, Table, Tabs, message, notification } from "antd";
 import { isMobile } from "react-device-detect";
 import type { TabsProps } from 'antd';
 import { ICompany, IResume, IUser } from "@/types/backend";
 import { useState, useEffect } from 'react';
-import { callChangePassword, callFetchCompany, callFetchResumeByUser, callFetchUserById, callGetSubscriberSkills, callUpdateSubscriber, callUpdateUserForNormal } from "@/config/api";
+import { callChangePassword, callDeleteResumeForUser, callFetchCompany, callFetchResumeByUser, callFetchUserById, callGetSubscriberSkills, callUpdateSubscriber, callUpdateUserForNormal } from "@/config/api";
 import type { ColumnsType } from 'antd/es/table';
 import dayjs from 'dayjs';
 import { MonitorOutlined } from "@ant-design/icons";
@@ -20,16 +20,29 @@ const UserResume = (props: any) => {
     const [isFetching, setIsFetching] = useState<boolean>(false);
 
     useEffect(() => {
-        const init = async () => {
-            setIsFetching(true);
-            const res = await callFetchResumeByUser();
-            if (res && res.data) {
-                setListCV(res.data as IResume[])
-            }
-            setIsFetching(false);
+        fetchResumes();
+    }, []);
+
+    const fetchResumes = async () => {
+        setIsFetching(true);
+        const res = await callFetchResumeByUser();
+        if (res && res.data) {
+            setListCV(res.data as IResume[]);
         }
-        init();
-    }, [])
+        setIsFetching(false);
+    };
+
+    const handleWithdraw = async (id: string) => {
+        try {
+            const res = await callDeleteResumeForUser(id);
+            if (res && res.data) {
+                message.success('Đã rút CV thành công');
+                fetchResumes(); // load lại danh sách sau khi rút
+            }
+        } catch (error) {
+            message.error('Rút CV thất bại');
+        }
+    };
 
     const columns: ColumnsType<IResume> = [
         {
@@ -79,6 +92,20 @@ const UserResume = (props: any) => {
                 )
             },
         },
+        {
+          title: '',
+          key: 'action',
+          render: (_, record) => (
+            <Popconfirm
+              title="Bạn có chắc chắn muốn rút CV này không?"
+              onConfirm={() => handleWithdraw(record._id as string)}
+              okText="Có"
+              cancelText="Không"
+            >
+              <Button danger>Rút CV</Button>
+            </Popconfirm>
+          ),
+        }
     ];
 
     return (
@@ -88,6 +115,7 @@ const UserResume = (props: any) => {
                 dataSource={listCV}
                 loading={isFetching}
                 pagination={false}
+                rowKey="_id"
             />
         </div>
     )
@@ -442,7 +470,7 @@ const ManageAccount = (props: IProps) => {
                 maskClosable={false}
                 footer={null}
                 destroyOnClose={true}
-                width={isMobile ? "100%" : "1000px"}
+                width={isMobile ? "100%" : "1040px"}
             >
 
                 <div style={{ minHeight: 400 }}>

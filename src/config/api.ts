@@ -172,6 +172,10 @@ export const callFetchResumeByUser = () => {
     return axios.post<IBackendRes<IResume[]>>(`/api/v1/resumes/by-user`);
 }
 
+export const callDeleteResumeForUser = (id: string) => {
+    return axios.post<IBackendRes<IResume>>(`/api/v1/resumes/withdraw-my-CV/${id}`);
+}
+
 /**
  * 
 Module Permission
