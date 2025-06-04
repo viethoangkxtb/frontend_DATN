@@ -34,29 +34,56 @@ const JobCard = (props: IProps) => {
     const [searchParams] = useSearchParams();
 
     useEffect(() => {
-        // Cập nhật filter mỗi lần searchParams thay đổi
-        const queryParams: string[] = [];
+        const fetchData = async () => {
+            setIsLoading(true);
 
-        if (searchParams.get("skills")) {
-            queryParams.push(`skills=${searchParams.get("skills")}`);
-        }
-        if (searchParams.get("location")) {
-            queryParams.push(`location=${searchParams.get("location")}`);
-        }
-        if (searchParams.get("name")) {
-            queryParams.push(`name=${searchParams.get("name")}`);
-        }
-        if (searchParams.get("company.name")) {
-            queryParams.push(`company.name=${searchParams.get("company.name")}`);
-        }
+            // Xây dựng filter từ searchParams
+            const queryParams: string[] = [];
+            if (searchParams.get("skills")) {
+                queryParams.push(`skills=${searchParams.get("skills")}`);
+            }
+            if (searchParams.get("location")) {
+                queryParams.push(`location=${searchParams.get("location")}`);
+            }
+            if (searchParams.get("name")) {
+                queryParams.push(`name=${searchParams.get("name")}`);
+            }
+            if (searchParams.get("company.name")) {
+                queryParams.push(`company.name=${searchParams.get("company.name")}`);
+            }
 
-        setFilter(queryParams.join("&"));
-        setCurrent(1); // reset về trang đầu khi lọc
-    }, [searchParams]);
+            const newFilter = queryParams.join("&");
+            setFilter(newFilter);
 
-    useEffect(() => {
-        fetchJob();
-    }, [current, pageSize, filter, sortQuery]);
+            // Gọi API với filter mới
+            let query = `current=${current}&pageSize=${pageSize}`;
+            if (newFilter) {
+                query += `&${newFilter}`;
+            }
+            if (sortQuery) {
+                query += `&${sortQuery}`;
+            }
+
+            try {
+                const res = await callFetchJob(query);
+                if (res && res.data) {
+                    setDisplayJob(res.data.result);
+                    setTotal(res.data.meta.total);
+                } else {
+                    setDisplayJob([]);
+                    setTotal(0);
+                }
+            } catch (error) {
+                console.error("Error fetching jobs:", error);
+                setDisplayJob([]);
+                setTotal(0);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [current, pageSize, sortQuery, searchParams]);
 
     const fetchJob = async () => {
         setIsLoading(true)

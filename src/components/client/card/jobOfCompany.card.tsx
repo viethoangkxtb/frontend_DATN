@@ -81,6 +81,14 @@ const JobOfCompanyCard = (props: IProps) => {
         navigate(`/job/${slug}?id=${item._id}`);
     }
 
+    const handleViewAllJobs = () => {
+        // Điều hướng sang /job với query parameter company.name
+        navigate({
+            pathname: '/job',
+            search: `?company.name=/${companyName}/i`,
+        });
+    };
+
     return (
         <div className={`${styles["card-job-section"]}`}>
             <div className={`${styles["job-content"]}`}>
@@ -89,7 +97,11 @@ const JobOfCompanyCard = (props: IProps) => {
                         <Col span={24}>
                             <div className={isMobile ? styles["dflex-mobile"] : styles["dflex-pc"]}>
                                 <span className={styles["title"]}>CÔNG VIỆC MỚI NHẤT</span>
-                                {!showPagination && <Link to="job">Xem tất cả</Link>}
+                                {!showPagination && (
+                                    <a onClick={handleViewAllJobs} style={{ cursor: 'pointer' }}>
+                                        Xem tất cả
+                                    </a>
+                                )}
                             </div>
                         </Col>
 
