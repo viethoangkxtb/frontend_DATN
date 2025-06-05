@@ -252,3 +252,19 @@ export const callFetchSubscriberById = (id: string) => {
     return axios.get<IBackendRes<ISubscriber>>(`/api/v1/subscribers/${id}`);
 }
 
+/**
+ * 
+Module Dashboard
+ */
+
+export const callFetchTotalUsers = () => {
+  return axios.get<IBackendRes<{ total: number }>>('/api/v1/users/total');
+};
+
+export const callFetchTotalCompanies = () => {
+  return axios.post<IBackendRes<{ total: number }>>('/api/v1/companies/total');
+};
+
+export const callFetchTotalJobs = () => {
+  return axios.post<IBackendRes<{ total: number }>>('/api/v1/jobs/total');
+};
