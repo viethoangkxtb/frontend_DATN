@@ -1,7 +1,7 @@
 import { callFetchJob } from '@/config/api';
 import { LOCATION_LIST, convertSlug, getLocationName } from '@/config/utils';
 import { IJob } from '@/types/backend';
-import { EnvironmentOutlined, ThunderboltOutlined } from '@ant-design/icons';
+import { CalendarOutlined, EnvironmentOutlined, ThunderboltOutlined } from '@ant-design/icons';
 import { Card, Col, Empty, Pagination, Row, Spin } from 'antd';
 import { useState, useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
@@ -121,6 +121,11 @@ const JobOfCompanyCard = (props: IProps) => {
                                             <div className={styles["job-title"]}>{item.name}</div>
                                             <div className={styles["job-location"]}><EnvironmentOutlined style={{ color: '#58aaab' }} />&nbsp;{getLocationName(item.location)}</div>
                                             <div><ThunderboltOutlined style={{ color: 'orange' }} />&nbsp;{(item.salary + "")?.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} đ</div>
+                                            <div style={{ marginTop: '6px' }}>
+                                                <CalendarOutlined style={{ color: '#52c41a' }} /> Từ&nbsp;
+                                                {item.startDate ? dayjs(item.startDate).format('DD/MM/YYYY') : '---'}&nbsp;đến&nbsp;
+                                                {item.endDate ? dayjs(item.endDate).format('DD/MM/YYYY') : '---'}
+                                            </div>
                                             <div className={styles["job-updatedAt"]}>{dayjs(item.updatedAt).locale('vi').fromNow()}</div>
                                         </div>
                                     </div>

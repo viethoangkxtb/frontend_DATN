@@ -5,15 +5,15 @@ import { callFetchJobById } from "@/config/api";
 import styles from 'styles/client.module.scss';
 import parse from 'html-react-parser';
 import { Col, Divider, Row, Skeleton, Tag } from "antd";
-import { DollarOutlined, EnvironmentOutlined, HistoryOutlined } from "@ant-design/icons";
+import { CalendarOutlined, DollarOutlined, EnvironmentOutlined, HistoryOutlined } from "@ant-design/icons";
 import { getLocationName } from "@/config/utils";
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import ApplyModal from "@/components/client/modal/apply.modal";
-import 'dayjs/locale/en'
+import 'dayjs/locale/vi'
 
 dayjs.extend(relativeTime)
-dayjs.locale('en')
+dayjs.locale('vi')
 
 
 const ClientJobDetailPage = (props: any) => {
@@ -75,8 +75,15 @@ const ClientJobDetailPage = (props: any) => {
                                 <div className={styles["location"]}>
                                     <EnvironmentOutlined style={{ color: '#58aaab' }} />&nbsp;{getLocationName(jobDetail.location)}
                                 </div>
+
+                                <div style={{ marginBottom: '15px' }}>
+                                    <CalendarOutlined style={{ color: '#52c41a' }} /> Từ&nbsp;
+                                        {jobDetail.startDate ? dayjs(jobDetail.startDate).format('DD/MM/YYYY') : '---'}&nbsp;đến&nbsp;
+                                        {jobDetail.endDate ? dayjs(jobDetail.endDate).format('DD/MM/YYYY') : '---'}
+                                </div>
+
                                 <div>
-                                    <HistoryOutlined /> {dayjs(jobDetail.updatedAt).locale('en').fromNow()}
+                                    <HistoryOutlined /> {dayjs(jobDetail.updatedAt).locale('vi').fromNow()}
                                 </div>
                                 <Divider />
                                 {parse(jobDetail.description)}
