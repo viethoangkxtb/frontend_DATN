@@ -48,7 +48,7 @@ const PermissionPage = () => {
 
     const columns: ProColumns<IPermission>[] = [
         {
-            title: 'Tên',
+            title: 'Tên quyền hạn',
             dataIndex: 'name',
             sorter: true,
             fieldProps: {

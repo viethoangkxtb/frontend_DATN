@@ -59,7 +59,7 @@ const SubscriberPage = () => {
             },
         },
         {
-            title: 'Tên',
+            title: 'Tên user',
             dataIndex: 'name',
             sorter: true,
             fieldProps: {
@@ -95,8 +95,8 @@ const SubscriberPage = () => {
             hideInSearch: true,
         },
         {
-            title: 'Action',
-            width: 75,
+            title: 'Hành động',
+            width: 90,
             hideInSearch: true,
             render: (_, entity) => (
                 <Space>

@@ -78,7 +78,7 @@ const LayoutAdmin = () => {
 
             const full = [
                 {
-                    label: <Link to='/admin'>Bảng điều khiển</Link>,
+                    label: <Link to='/admin'>Bảng thông tin sơ bộ</Link>,
                     key: '/admin',
                     icon: <AppstoreOutlined />
                 },

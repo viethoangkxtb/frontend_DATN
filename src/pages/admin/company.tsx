@@ -71,7 +71,7 @@ const CompanyPage = () => {
         //     hideInSearch: true,
         // },
         {
-            title: 'Tên',
+            title: 'Tên công ty',
             width: 200,
             dataIndex: 'name',
             sorter: true,

@@ -49,19 +49,19 @@ const UserPage = () => {
 
     const columns: ProColumns<IUser>[] = [
         {
+            title: 'Tên người dùng',
+            dataIndex: 'name',
+            sorter: true,
+            fieldProps: {
+                placeholder: 'Nhập tên',
+            },
+        },
+        {
             title: 'Email',
             dataIndex: 'email',
             sorter: true,
             fieldProps: {
                 placeholder: 'Nhập email',
-            },
-        },
-        {
-            title: 'Tên',
-            dataIndex: 'name',
-            sorter: true,
-            fieldProps: {
-                placeholder: 'Nhập tên',
             },
         },
         {

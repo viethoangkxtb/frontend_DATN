@@ -57,7 +57,7 @@ const RolePage = () => {
             hideInSearch: true,
         },
         {
-            title: 'Tên',
+            title: 'Tên vai trò',
             dataIndex: 'name',
             sorter: true,
             fieldProps: {

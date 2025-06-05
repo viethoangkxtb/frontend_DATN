@@ -68,12 +68,12 @@ const ResumePage = () => {
         },
 
         {
-            title: 'Công việc',
+            title: 'Tên công việc',
             dataIndex: ["jobId", "name"],
             hideInSearch: true,
         },
         {
-            title: 'Công ty',
+            title: 'Tên công ty',
             dataIndex: ["companyId", "name"],
             hideInSearch: true,
         },
