@@ -65,7 +65,7 @@ instance.interceptors.response.use(
             && error.config.url === '/api/v1/auth/refresh'
             && location.pathname.startsWith("/admin")
         ) {
-            const message = error?.response?.data?.message ?? "Có lỗi xảy ra, vui lòng login.";
+            const message = error?.response?.data?.message ?? "Có lỗi xảy ra, vui lòng đăng nhập.";
             //dispatch redux action
             store.dispatch(setRefreshTokenAction({ status: true, message }));
         }

@@ -54,7 +54,7 @@ const ModalCompany = (props: IProps) => {
         const { name, address } = valuesForm;
 
         if (dataLogo.length === 0) {
-            message.error('Vui lòng upload ảnh Logo')
+            message.error('Vui lòng tải ảnh Logo')
             return;
         }
 
@@ -62,7 +62,7 @@ const ModalCompany = (props: IProps) => {
             //update
             const res = await callUpdateCompany(dataInit._id, name, address, value, dataLogo[0].name);
             if (res.data) {
-                message.success("Cập nhật company thành công");
+                message.success("Cập nhật công ty thành công");
                 handleReset();
                 reloadTable();
             } else {
@@ -75,7 +75,7 @@ const ModalCompany = (props: IProps) => {
             //create
             const res = await callCreateCompany(name, address, value, dataLogo[0].name);
             if (res.data) {
-                message.success("Thêm mới company thành công");
+                message.success("Thêm mới công ty thành công");
                 handleReset();
                 reloadTable();
             } else {
@@ -126,11 +126,11 @@ const ModalCompany = (props: IProps) => {
     const beforeUpload = (file: any) => {
         const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
         if (!isJpgOrPng) {
-            message.error('You can only upload JPG/PNG file!');
+            message.error('Bạn chỉ có thể tải ảnh có định dạng JPG/PNG!');
         }
         const isLt2M = file.size / 1024 / 1024 < 2;
         if (!isLt2M) {
-            message.error('Image must smaller than 2MB!');
+            message.error('Kích thước ảnh phải nhỏ hơn 2MB!');
         }
         return isJpgOrPng && isLt2M;
     };
@@ -144,7 +144,7 @@ const ModalCompany = (props: IProps) => {
         }
         if (info.file.status === 'error') {
             setLoadingUpload(false);
-            message.error(info?.file?.error?.event?.message ?? "Đã có lỗi xảy ra khi upload file.")
+            message.error(info?.file?.error?.event?.message ?? "Đã có lỗi xảy ra khi tải file.")
         }
     };
 
@@ -171,7 +171,7 @@ const ModalCompany = (props: IProps) => {
             {openModal &&
                 <>
                     <ModalForm
-                        title={<>{dataInit?._id ? "Cập nhật Company" : "Tạo mới Company"}</>}
+                        title={<>{dataInit?._id ? "Cập nhật công ty" : "Tạo mới công ty"}</>}
                         open={openModal}
                         modalProps={{
                             onCancel: () => { handleReset() },
@@ -251,7 +251,7 @@ const ModalCompany = (props: IProps) => {
                                             <div>
                                                 {loadingUpload ? (<LoadingOutlined />) : dataLogo.length > 0 ? (<EditOutlined />) : (<PlusOutlined />)}
                                                 <div style={{ marginTop: 8 }}>
-                                                    {dataLogo.length > 0 ? 'Modify' : 'Upload'}
+                                                    {dataLogo.length > 0 ? 'Sửa lại' : 'Tải lên'}
                                                 </div>
                                             </div>
                                         </Upload>

@@ -179,7 +179,11 @@ const ChangePassword = () => {
                 <Input.Password />
             </Form.Item>
 
-            <Button type="primary" htmlType="submit">Đổi mật khẩu</Button>
+            <Form.Item style={{ textAlign: 'right' }}>
+                <Button type="primary" htmlType="submit">
+                    Đổi mật khẩu
+                </Button>
+            </Form.Item>
         </Form>
     );
 };
@@ -445,7 +449,7 @@ const ManageAccount = (props: IProps) => {
         },
         {
             key: 'email-by-skills',
-            label: `Nhận Jobs qua Email`,
+            label: `Nhận thông tin công việc qua Email`,
             children: <JobByEmail />,
         },
         {

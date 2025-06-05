@@ -146,7 +146,7 @@ const RegisterPage = () => {
                                 </Button>
                             </Form.Item>
                             <Divider> Or </Divider>
-                            <p className="text text-normal" > Đã có tài khoản ?
+                            <p className="text text-normal" > Đã có tài khoản?
                                 <span>
                                     <Link to='/login' > Đăng Nhập </Link>
                                 </span>

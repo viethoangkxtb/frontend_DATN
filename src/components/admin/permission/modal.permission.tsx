@@ -31,7 +31,7 @@ const ModalPermission = (props: IProps) => {
 
             const res = await callUpdatePermission(permission, dataInit._id);
             if (res.data) {
-                message.success("Cập nhật permission thành công");
+                message.success("Cập nhật quyền hạn thành công");
                 handleReset();
                 reloadTable();
             } else {
@@ -48,7 +48,7 @@ const ModalPermission = (props: IProps) => {
             }
             const res = await callCreatePermission(permission);
             if (res.data) {
-                message.success("Thêm mới permission thành công");
+                message.success("Thêm mới quyền hạn thành công");
                 handleReset();
                 reloadTable();
             } else {
@@ -69,7 +69,7 @@ const ModalPermission = (props: IProps) => {
     return (
         <>
             <ModalForm
-                title={<>{dataInit?._id ? "Cập nhật Permission" : "Tạo mới Permission"}</>}
+                title={<>{dataInit?._id ? "Cập nhật quyền hạn" : "Tạo mới quyền hạn"}</>}
                 open={openModal}
                 modalProps={{
                     onCancel: () => { handleReset() },
@@ -90,12 +90,12 @@ const ModalPermission = (props: IProps) => {
                 <Row gutter={16}>
                     <Col lg={12} md={12} sm={24} xs={24}>
                         <ProFormText
-                            label="Tên Permission"
+                            label="Tên quyền hạn"
                             name="name"
                             rules={[
                                 { required: true, message: 'Vui lòng không bỏ trống' },
                             ]}
-                            placeholder="Nhập name"
+                            placeholder="Nhập tên quyền hạn"
                         />
                     </Col>
                     <Col lg={12} md={12} sm={24} xs={24}>
@@ -105,7 +105,7 @@ const ModalPermission = (props: IProps) => {
                             rules={[
                                 { required: true, message: 'Vui lòng không bỏ trống' },
                             ]}
-                            placeholder="Nhập path"
+                            placeholder="Nhập apipaht"
                         />
                     </Col>
 
@@ -120,7 +120,7 @@ const ModalPermission = (props: IProps) => {
                                 PATCH: 'PATCH',
                                 DELETE: 'DELETE',
                             }}
-                            placeholder="Please select a method"
+                            placeholder="Vui lòng chọn method"
                             rules={[{ required: true, message: 'Vui lòng chọn method!' }]}
                         />
                     </Col>
@@ -129,7 +129,7 @@ const ModalPermission = (props: IProps) => {
                             name="module"
                             label="Thuộc Module"
                             valueEnum={ALL_MODULES}
-                            placeholder="Please select a module"
+                            placeholder="Vui lòng chọn module"
                             rules={[{ required: true, message: 'Vui lòng chọn module!' }]}
                         />
                     </Col>

@@ -28,7 +28,7 @@ const CompanyPage = () => {
         if (_id) {
             const res = await callDeleteCompany(_id);
             if (res && res.data) {
-                message.success('Xóa Company thành công');
+                message.success('Xóa Công ty thành công');
                 reloadTable();
             } else {
                 notification.error({
@@ -71,7 +71,7 @@ const CompanyPage = () => {
         //     hideInSearch: true,
         // },
         {
-            title: 'Name',
+            title: 'Tên',
             width: 200,
             dataIndex: 'name',
             sorter: true,
@@ -80,7 +80,7 @@ const CompanyPage = () => {
             },
         },
         {
-            title: 'Address',
+            title: 'Địa chỉ',
             dataIndex: 'address',
             sorter: true,
             fieldProps: {
@@ -89,7 +89,7 @@ const CompanyPage = () => {
         },
 
         {
-            title: 'CreatedAt',
+            title: 'Ngày tạo',
             dataIndex: 'createdAt',
             width: 200,
             sorter: true,
@@ -101,7 +101,7 @@ const CompanyPage = () => {
             hideInSearch: true,
         },
         {
-            title: 'UpdatedAt',
+            title: 'Ngày cập nhật',
             dataIndex: 'updatedAt',
             width: 200,
             sorter: true,
@@ -114,7 +114,7 @@ const CompanyPage = () => {
         },
         {
 
-            title: 'Actions',
+            title: 'Hành động',
             hideInSearch: true,
             width: 50,
             render: (_value, entity, _index, _action) => (
@@ -143,8 +143,8 @@ const CompanyPage = () => {
                     >
                         <Popconfirm
                             placement="leftTop"
-                            title={"Xác nhận xóa company"}
-                            description={"Bạn có chắc chắn muốn xóa company này ?"}
+                            title={"Xác nhận xóa công ty"}
+                            description={"Bạn có chắc chắn muốn xóa công ty này ?"}
                             onConfirm={() => handleDeleteCompany(entity._id)}
                             okText="Xác nhận"
                             cancelText="Hủy"

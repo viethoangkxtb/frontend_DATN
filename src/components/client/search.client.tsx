@@ -127,7 +127,7 @@ const SearchClient = () => {
                 
                 <Col span={12} md={2} style={{ display: 'flex'}}>
                     <Button type='primary' onClick={handleSearch} block>
-                        Search
+                        Tìm kiếm
                     </Button>
                 </Col>
             </Row>

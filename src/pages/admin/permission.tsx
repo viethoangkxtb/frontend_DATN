@@ -31,7 +31,7 @@ const PermissionPage = () => {
         if (_id) {
             const res = await callDeletePermission(_id);
             if (res && res.data) {
-                message.success('Xóa Permission thành công');
+                message.success('Xóa quyền hạn thành công');
                 reloadTable();
             } else {
                 notification.error({
@@ -48,11 +48,11 @@ const PermissionPage = () => {
 
     const columns: ProColumns<IPermission>[] = [
         {
-            title: 'Name',
+            title: 'Tên',
             dataIndex: 'name',
             sorter: true,
             fieldProps: {
-                placeholder: 'Nhập tên Permission',
+                placeholder: 'Nhập tên quyền hạn',
             },
         },
         {
@@ -92,7 +92,7 @@ const PermissionPage = () => {
             sorter: true,
         },
         {
-            title: 'CreatedAt',
+            title: 'Ngày tạo',
             dataIndex: 'createdAt',
             width: 200,
             sorter: true,
@@ -104,7 +104,7 @@ const PermissionPage = () => {
             hideInSearch: true,
         },
         {
-            title: 'UpdatedAt',
+            title: 'Ngày cập nhật',
             dataIndex: 'updatedAt',
             width: 200,
             sorter: true,
@@ -117,7 +117,7 @@ const PermissionPage = () => {
         },
         {
 
-            title: 'Actions',
+            title: 'Hành động',
             hideInSearch: true,
             width: 50,
             render: (_value, entity, _index, _action) => (
@@ -144,8 +144,8 @@ const PermissionPage = () => {
                     >
                         <Popconfirm
                             placement="leftTop"
-                            title={"Xác nhận xóa permission"}
-                            description={"Bạn có chắc chắn muốn xóa permission này ?"}
+                            title={"Xác nhận xóa quyền hạn"}
+                            description={"Bạn có chắc chắn muốn xóa quyền hạn này?"}
                             onConfirm={() => handleDeletePermission(entity._id)}
                             okText="Xác nhận"
                             cancelText="Hủy"
@@ -229,7 +229,7 @@ const PermissionPage = () => {
             >
                 <DataTable<IPermission>
                     actionRef={tableRef}
-                    headerTitle="Danh sách Permissions (Quyền Hạn)"
+                    headerTitle="Danh sách Quyền Hạn"
                     rowKey="_id"
                     loading={isFetching}
                     columns={columns}

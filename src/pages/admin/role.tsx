@@ -27,7 +27,7 @@ const RolePage = () => {
         if (_id) {
             const res = await callDeleteRole(_id);
             if (res && res.data) {
-                message.success('Xóa Role thành công');
+                message.success('Xóa vai trò thành công');
                 reloadTable();
             } else {
                 notification.error({
@@ -57,11 +57,11 @@ const RolePage = () => {
             hideInSearch: true,
         },
         {
-            title: 'Name',
+            title: 'Tên',
             dataIndex: 'name',
             sorter: true,
             fieldProps: {
-                placeholder: 'Nhập tên Role',
+                placeholder: 'Nhập tên vai trò',
             },
         },
         {
@@ -77,7 +77,7 @@ const RolePage = () => {
             hideInSearch: true,
         },
         {
-            title: 'CreatedAt',
+            title: 'Ngày tạo',
             dataIndex: 'createdAt',
             width: 200,
             sorter: true,
@@ -89,7 +89,7 @@ const RolePage = () => {
             hideInSearch: true,
         },
         {
-            title: 'UpdatedAt',
+            title: 'Ngày cập nhật',
             dataIndex: 'updatedAt',
             width: 200,
             sorter: true,
@@ -102,7 +102,7 @@ const RolePage = () => {
         },
         {
 
-            title: 'Actions',
+            title: 'Hành động',
             hideInSearch: true,
             width: 50,
             render: (_value, entity, _index, _action) => (
@@ -129,8 +129,8 @@ const RolePage = () => {
                     >
                         <Popconfirm
                             placement="leftTop"
-                            title={"Xác nhận xóa role"}
-                            description={"Bạn có chắc chắn muốn xóa role này ?"}
+                            title={"Xác nhận xóa vai trò"}
+                            description={"Bạn có chắc chắn muốn xóa vai trò này ?"}
                             onConfirm={() => handleDeleteRole(entity._id)}
                             okText="Xác nhận"
                             cancelText="Hủy"
@@ -185,7 +185,7 @@ const RolePage = () => {
             >
                 <DataTable<IRole>
                     actionRef={tableRef}
-                    headerTitle="Danh sách Roles (Vai Trò)"
+                    headerTitle="Danh sách Vai Trò"
                     rowKey="_id"
                     loading={isFetching}
                     columns={columns}

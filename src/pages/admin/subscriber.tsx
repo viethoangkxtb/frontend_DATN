@@ -26,7 +26,7 @@ const SubscriberPage = () => {
         if (_id) {
             const res = await callDeleteSubscriber(_id);
             if (res && res.data) {
-                message.success('Xóa subscriber thành công');
+                message.success('Xóa đăng ký thành công');
                 reloadTable();
             } else {
                 notification.error({
@@ -59,7 +59,7 @@ const SubscriberPage = () => {
             },
         },
         {
-            title: 'Name',
+            title: 'Tên',
             dataIndex: 'name',
             sorter: true,
             fieldProps: {
@@ -109,8 +109,8 @@ const SubscriberPage = () => {
                     <Access permission={ALL_PERMISSIONS.SUBSCRIBERS.DELETE} hideChildren>
                         <Popconfirm
                             placement="leftTop"
-                            title="Xác nhận xóa subscriber"
-                            description="Bạn có chắc chắn muốn xóa subscriber này?"
+                            title="Xác nhận xóa đăng ký"
+                            description="Bạn có chắc chắn muốn xóa đăng ký này?"
                             onConfirm={() => handleDeleteSubscriber(entity._id)}
                             okText="Xác nhận"
                             cancelText="Hủy"
@@ -146,7 +146,7 @@ const SubscriberPage = () => {
         <Access permission={ALL_PERMISSIONS.SUBSCRIBERS.GET_PAGINATE}>
             <DataTable<ISubscriber>
                 actionRef={tableRef}
-                headerTitle="Danh sách Subscribers"
+                headerTitle="Danh sách Đăng ký"
                 rowKey="_id"
                 loading={isFetching}
                 columns={columns}

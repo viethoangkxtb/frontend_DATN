@@ -9,10 +9,10 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import styles from 'styles/client.module.scss';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import 'dayjs/locale/en'
+import 'dayjs/locale/vi'
 
 dayjs.extend(relativeTime)
-dayjs.locale('en')
+dayjs.locale('vi')
 
 interface IProps {
     showPagination?: boolean;
@@ -74,7 +74,7 @@ const JobCard = (props: IProps) => {
                     setTotal(0);
                 }
             } catch (error) {
-                console.error("Error fetching jobs:", error);
+                console.error("Lỗi tải công việc:", error);
                 setDisplayJob([]);
                 setTotal(0);
             } finally {
@@ -151,7 +151,7 @@ const JobCard = (props: IProps) => {
                                                 <div className={styles["job-title"]}>{item.name}</div>
                                                 <div className={styles["job-location"]}><EnvironmentOutlined style={{ color: '#58aaab' }} />&nbsp;{getLocationName(item.location)}</div>
                                                 <div><ThunderboltOutlined style={{ color: 'orange' }} />&nbsp;{(item.salary + "")?.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} đ</div>
-                                                <div className={styles["job-updatedAt"]}>{dayjs(item.updatedAt).locale('en').fromNow()}</div>
+                                                <div className={styles["job-updatedAt"]}>{dayjs(item.updatedAt).locale('vi').fromNow()}</div>
                                             </div>
                                         </div>
 

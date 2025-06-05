@@ -28,7 +28,7 @@ const JobPage = () => {
         if (_id) {
             const res = await callDeleteJob(_id);
             if (res && res.data) {
-                message.success('Xóa Job thành công');
+                message.success('Xóa công việc thành công');
                 reloadTable();
             } else {
                 notification.error({
@@ -58,7 +58,7 @@ const JobPage = () => {
             hideInSearch: true,
         },
         {
-            title: 'Tên Job',
+            title: 'Tên công việc',
             dataIndex: 'name',
             sorter: true,
             fieldProps: {
@@ -82,7 +82,7 @@ const JobPage = () => {
             },
         },
         {
-            title: 'Level',
+            title: 'Trình độ',
             dataIndex: 'level',
             renderFormItem: (item, props, form) => (
                 <ProFormSelect
@@ -114,7 +114,7 @@ const JobPage = () => {
         },
 
         {
-            title: 'CreatedAt',
+            title: 'Ngày tạo',
             dataIndex: 'createdAt',
             width: 200,
             sorter: true,
@@ -126,7 +126,7 @@ const JobPage = () => {
             hideInSearch: true,
         },
         {
-            title: 'UpdatedAt',
+            title: 'Ngày cập nhật',
             dataIndex: 'updatedAt',
             width: 200,
             sorter: true,
@@ -139,7 +139,7 @@ const JobPage = () => {
         },
         {
 
-            title: 'Actions',
+            title: 'Hành động',
             hideInSearch: true,
             width: 50,
             render: (_value, entity, _index, _action) => (
@@ -165,8 +165,8 @@ const JobPage = () => {
                     >
                         <Popconfirm
                             placement="leftTop"
-                            title={"Xác nhận xóa job"}
-                            description={"Bạn có chắc chắn muốn xóa job này ?"}
+                            title={"Xác nhận xóa công việc"}
+                            description={"Bạn có chắc chắn muốn xóa công việc này ?"}
                             onConfirm={() => handleDeleteJob(entity._id)}
                             okText="Xác nhận"
                             cancelText="Hủy"
@@ -228,7 +228,7 @@ const JobPage = () => {
             >
                 <DataTable<IJob>
                     actionRef={tableRef}
-                    headerTitle="Danh sách Jobs"
+                    headerTitle="Danh sách Công việc"
                     rowKey="_id"
                     loading={isFetching}
                     columns={columns}
@@ -255,7 +255,7 @@ const JobPage = () => {
                                 STT: index + 1 + (meta.current - 1) * meta.pageSize,
                                 "Tên công việc": job.name,
                                 "Mức lương": job.salary,
-                                "Level": job.level,
+                                "Trình độ": job.level,
                                 "Trạng thái": job.isActive ? 'ACTIVE' : 'INACTIVE',
                                 "Ngày tạo": dayjs(job.createdAt).format('DD-MM-YYYY HH:mm:ss'),
                                 "Ngày cập nhật": dayjs(job.updatedAt).format('DD-MM-YYYY HH:mm:ss'),

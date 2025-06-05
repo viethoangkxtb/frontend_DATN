@@ -143,7 +143,7 @@ const ViewDetailResume = (props: IProps) => {
 
       const sendEmail = await callSendApproveEmail(payload);
       if (sendEmail.data) {
-        message.success("Gửi approve email thành công");
+        message.success("Gửi email chấp nhận thành công");
         setModalApprovedVisible(false);
         onClose(false);
         reloadTable();
@@ -173,7 +173,7 @@ const ViewDetailResume = (props: IProps) => {
 
       const sendEmail = await callSendRejectEmail(payload);
       if (sendEmail.data) {
-        message.success("Gửi reject email thành công");
+        message.success("Gửi email từ chối thành công");
         setModalRejectedVisible(false);
         onClose(false);
         reloadTable();
@@ -220,7 +220,7 @@ const ViewDetailResume = (props: IProps) => {
     return (
         <>
             <Drawer
-                title="Thông Tin Resume"
+                title="Thông Tin Đơn xin việc"
                 placement="right"
                 onClose={() => { 
                     onClose(false); 
@@ -290,7 +290,7 @@ const ViewDetailResume = (props: IProps) => {
                         </Form>
 
                     </Descriptions.Item>
-                    <Descriptions.Item label="Tên Job">
+                    <Descriptions.Item label="Tên Công việc">
                         {dataInit?.jobId?.name}
                     </Descriptions.Item>
                     <Descriptions.Item label="Tên Công Ty">

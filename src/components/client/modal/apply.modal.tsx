@@ -25,7 +25,7 @@ const ApplyModal = (props: IProps) => {
 
     const handleOkButton = async () => {
         if (!urlCV && isAuthenticated) {
-            message.error("Vui lòng upload CV!");
+            message.error("Vui lòng tải CV!");
             return;
         }
 
@@ -72,9 +72,9 @@ const ApplyModal = (props: IProps) => {
                 // console.log(info.file, info.fileList);
             }
             if (info.file.status === 'done') {
-                message.success(`${info.file.name} file uploaded successfully`);
+                message.success(`${info.file.name} đã tải lên thành công`);
             } else if (info.file.status === 'error') {
-                message.error(info?.file?.error?.event?.message ?? "Đã có lỗi xảy ra khi upload file.")
+                message.error(info?.file?.error?.event?.message ?? "Đã có lỗi xảy ra khi tải lên file.")
             }
         },
     };
@@ -82,7 +82,7 @@ const ApplyModal = (props: IProps) => {
 
     return (
         <>
-            <Modal title="Ứng Tuyển Job"
+            <Modal title="Ứng Tuyển công việc"
                 open={isModalOpen}
                 onOk={() => handleOkButton()}
                 onCancel={() => setIsModalOpen(false)}
@@ -122,8 +122,8 @@ const ApplyModal = (props: IProps) => {
                                     </Col>
                                     <Col span={24}>
                                         <ProForm.Item
-                                            label={"Upload file CV"}
-                                            rules={[{ required: true, message: 'Vui lòng upload file!' }]}
+                                            label={"Tải lên file CV"}
+                                            rules={[{ required: true, message: 'Vui lòng tải lên file!' }]}
                                         >
 
                                             <Upload {...propsUpload}>

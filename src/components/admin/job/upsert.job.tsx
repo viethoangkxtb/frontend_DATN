@@ -108,7 +108,7 @@ const ViewUpsertJob = (props: any) => {
 
             const res = await callUpdateJob(job, dataUpdate._id);
             if (res.data) {
-                message.success("Cập nhật job thành công");
+                message.success("Cập nhật công việc thành công");
                 navigate('/admin/job')
             } else {
                 notification.error({
@@ -139,7 +139,7 @@ const ViewUpsertJob = (props: any) => {
 
             const res = await callCreateJob(job);
             if (res.data) {
-                message.success("Tạo mới job thành công");
+                message.success("Tạo mới công việc thành công");
                 navigate('/admin/job')
             } else {
                 notification.error({
@@ -159,10 +159,10 @@ const ViewUpsertJob = (props: any) => {
                     separator=">"
                     items={[
                         {
-                            title: <Link to="/admin/job">Manage Job</Link>,
+                            title: <Link to="/admin/job">Quản lý công việc</Link>,
                         },
                         {
-                            title: 'Upsert Job',
+                            title: 'Thông tin công việc',
                         },
                     ]}
                 />
@@ -177,7 +177,7 @@ const ViewUpsertJob = (props: any) => {
                             {
                                 searchConfig: {
                                     resetText: "Hủy",
-                                    submitText: <>{dataUpdate?._id ? "Cập nhật Job" : "Tạo mới Job"}</>
+                                    submitText: <>{dataUpdate?._id ? "Cập nhật công việc" : "Tạo mới công việc"}</>
                                 },
                                 onReset: () => navigate('/admin/job'),
                                 render: (_: any, dom: any) => <FooterToolbar>{dom}</FooterToolbar>,
@@ -190,12 +190,12 @@ const ViewUpsertJob = (props: any) => {
                         <Row gutter={[20, 20]}>
                             <Col span={24} md={12}>
                                 <ProFormText
-                                    label="Tên Job"
+                                    label="Tên công việc"
                                     name="name"
                                     rules={[
                                         { required: true, message: 'Vui lòng không bỏ trống' },
                                     ]}
-                                    placeholder="Nhập tên job"
+                                    placeholder="Nhập tên công việc"
                                 />
                             </Col>
                             <Col span={24} md={6}>
@@ -203,7 +203,7 @@ const ViewUpsertJob = (props: any) => {
                                     name="skills"
                                     label="Kỹ năng yêu cầu"
                                     options={SKILLS_LIST}
-                                    placeholder="Please select a skill"
+                                    placeholder="Vui lòng chọn kỹ năng"
                                     rules={[{ required: true, message: 'Vui lòng chọn kỹ năng!' }]}
                                     allowClear
                                     mode="multiple"
@@ -218,7 +218,7 @@ const ViewUpsertJob = (props: any) => {
                                     name="location"
                                     label="Địa điểm"
                                     options={LOCATION_LIST.filter(item => item.value !== 'ALL')}
-                                    placeholder="Please select a location"
+                                    placeholder="Vui lòng chọn địa điểm"
                                     rules={[{ required: true, message: 'Vui lòng chọn địa điểm!' }]}
                                 />
                             </Col>
@@ -254,8 +254,8 @@ const ViewUpsertJob = (props: any) => {
                                         MIDDLE: 'MIDDLE',
                                         SENIOR: 'SENIOR',
                                     }}
-                                    placeholder="Please select a level"
-                                    rules={[{ required: true, message: 'Vui lòng chọn level!' }]}
+                                    placeholder="Vui lòng chọn trình độ"
+                                    rules={[{ required: true, message: 'Vui lòng chọn trình độ!' }]}
                                 />
                             </Col>
 
@@ -264,7 +264,7 @@ const ViewUpsertJob = (props: any) => {
                                     <ProForm.Item
                                         name="company"
                                         label="Thuộc Công Ty"
-                                        rules={[{ required: true, message: 'Vui lòng chọn company!' }]}
+                                        rules={[{ required: true, message: 'Vui lòng chọn công ty!' }]}
                                     >
                                         <DebounceSelect
                                             allowClear
@@ -296,7 +296,7 @@ const ViewUpsertJob = (props: any) => {
                                         format: 'DD/MM/YYYY',
 
                                     }}
-                                    rules={[{ required: true, message: 'Vui lòng chọn ngày cấp' }]}
+                                    rules={[{ required: true, message: 'Vui lòng chọn ngày bắt đầu' }]}
                                     placeholder="dd/mm/yyyy"
                                 />
                             </Col>
@@ -310,7 +310,7 @@ const ViewUpsertJob = (props: any) => {
 
                                     }}
                                     // width="auto"
-                                    rules={[{ required: true, message: 'Vui lòng chọn ngày cấp' }]}
+                                    rules={[{ required: true, message: 'Vui lòng chọn ngày kết thúc' }]}
                                     placeholder="dd/mm/yyyy"
                                 />
                             </Col>
@@ -329,8 +329,8 @@ const ViewUpsertJob = (props: any) => {
                             <Col span={24}>
                                 <ProForm.Item
                                     name="description"
-                                    label="Miêu tả job"
-                                    rules={[{ required: true, message: 'Vui lòng nhập miêu tả job!' }]}
+                                    label="Miêu tả công việc"
+                                    rules={[{ required: true, message: 'Vui lòng nhập miêu tả công việc!' }]}
                                 >
                                     <ReactQuill
                                         theme="snow"

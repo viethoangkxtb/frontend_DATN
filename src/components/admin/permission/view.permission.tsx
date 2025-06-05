@@ -14,7 +14,7 @@ const ViewDetailPermission = (props: IProps) => {
     return (
         <>
             <Drawer
-                title="Thông Tin Permission"
+                title="Thông Tin Quyền Hạn"
                 placement="right"
                 onClose={() => { onClose(false); setDataInit(null) }}
                 open={open}
@@ -22,7 +22,7 @@ const ViewDetailPermission = (props: IProps) => {
                 maskClosable={false}
             >
                 <Descriptions title="" bordered column={2} layout="vertical">
-                    <Descriptions.Item label="Tên Permission">{dataInit?.name}</Descriptions.Item>
+                    <Descriptions.Item label="Tên Quyền hạn">{dataInit?.name}</Descriptions.Item>
                     <Descriptions.Item label="API Path">{dataInit?.apiPath}</Descriptions.Item>
 
                     <Descriptions.Item label="Method">{dataInit?.method}</Descriptions.Item>

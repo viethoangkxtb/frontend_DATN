@@ -78,44 +78,44 @@ const LayoutAdmin = () => {
 
             const full = [
                 {
-                    label: <Link to='/admin'>Dashboard</Link>,
+                    label: <Link to='/admin'>Bảng điều khiển</Link>,
                     key: '/admin',
                     icon: <AppstoreOutlined />
                 },
                 ...(viewCompany ? [{
-                    label: <Link to='/admin/company'>Company</Link>,
+                    label: <Link to='/admin/company'>Công ty</Link>,
                     key: '/admin/company',
                     icon: <BankOutlined />,
                 }] : []),
 
                 ...(viewUser ? [{
-                    label: <Link to='/admin/user'>User</Link>,
+                    label: <Link to='/admin/user'>Người dùng</Link>,
                     key: '/admin/user',
                     icon: <UserOutlined />
                 }] : []),
                 ...(viewJob ? [{
-                    label: <Link to='/admin/job'>Job</Link>,
+                    label: <Link to='/admin/job'>Công việc</Link>,
                     key: '/admin/job',
                     icon: <ScheduleOutlined />
                 }] : []),
 
                 ...(viewResume ? [{
-                    label: <Link to='/admin/resume'>Resume</Link>,
+                    label: <Link to='/admin/resume'>Đơn xin việc</Link>,
                     key: '/admin/resume',
                     icon: <AliwangwangOutlined />
                 }] : []),
                 ...(viewPermission ? [{
-                    label: <Link to='/admin/permission'>Permission</Link>,
+                    label: <Link to='/admin/permission'>Quyền hạn</Link>,
                     key: '/admin/permission',
                     icon: <ApiOutlined />
                 }] : []),
                 ...(viewRole ? [{
-                    label: <Link to='/admin/role'>Role</Link>,
+                    label: <Link to='/admin/role'>Vai trò</Link>,
                     key: '/admin/role',
                     icon: <ExceptionOutlined />
                 }] : []),
                 ...(viewSubscriber ? [{
-                    label: <Link to='/admin/subscriber'>Subscriber</Link>,
+                    label: <Link to='/admin/subscriber'>Người đăng ký</Link>,
                     key: '/admin/subscriber',
                     icon: <ProfileOutlined />
                 }] : []),
@@ -216,7 +216,7 @@ const LayoutAdmin = () => {
 
                             <Dropdown menu={{ items: itemsDropdown }} trigger={['click']}>
                                 <Space style={{ cursor: "pointer" }}>
-                                    Welcome {user?.name}
+                                    Xin chào {user?.name}
                                     <Avatar> {user?.name?.substring(0, 2)?.toUpperCase()} </Avatar>
 
                                 </Space>
