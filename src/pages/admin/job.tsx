@@ -58,12 +58,21 @@ const JobPage = () => {
             hideInSearch: true,
         },
         {
-            title: 'Tên công việc',
+            title: 'Tên job',
             dataIndex: 'name',
             sorter: true,
             fieldProps: {
                 placeholder: 'Nhập tên công việc',
             },
+        },
+        {
+            title: 'Tên công ty',
+            dataIndex: ['company', 'name'],
+            sorter: true,
+            fieldProps: {
+                placeholder: 'Nhập tên công việc',
+            },
+            hideInSearch: true,
         },
         {
             title: 'Mức lương',
