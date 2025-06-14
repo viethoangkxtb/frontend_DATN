@@ -89,7 +89,7 @@ const SearchClient = () => {
             submitter={{ render: () => <></> }}
         >
             <Row gutter={[20, 20]}>
-                <Col span={24}><h2>Việc Làm IT Cho Lập Trình Viên "Chất"</h2></Col>
+                <Col span={24}><h2>Việc Làm IT Cho Lập Trình Viên</h2></Col>
                 
                 <Col span={24} md={7}>
                     <ProForm.Item name="jobName">

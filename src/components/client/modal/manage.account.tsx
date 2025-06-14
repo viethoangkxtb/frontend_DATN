@@ -444,7 +444,7 @@ const ManageAccount = (props: IProps) => {
     const items: TabsProps['items'] = [
         {
             key: 'user-resume',
-            label: `Rải CV`,
+            label: `Danh sách CV đã gửi`,
             children: <UserResume />,
         },
         {
@@ -474,7 +474,7 @@ const ManageAccount = (props: IProps) => {
                 maskClosable={false}
                 footer={null}
                 destroyOnClose={true}
-                width={isMobile ? "100%" : "1040px"}
+                width={isMobile ? "100%" : "1060px"}
             >
 
                 <div style={{ minHeight: 400 }}>

@@ -49,7 +49,7 @@ const UserPage = () => {
 
     const columns: ProColumns<IUser>[] = [
         {
-            title: 'Tên người dùng',
+            title: 'Tên User',
             dataIndex: 'name',
             sorter: true,
             fieldProps: {
