@@ -1,14 +1,15 @@
 import { Button, Col, Form, Input, InputNumber, Modal, Popconfirm, Row, Select, Table, Tabs, message, notification } from "antd";
 import { isMobile } from "react-device-detect";
 import type { TabsProps } from 'antd';
-import { ICompany, IResume, IUser } from "@/types/backend";
+import { ICompany, IFavoriteJobItem, IResume, IUser } from "@/types/backend";
 import { useState, useEffect } from 'react';
-import { callChangePassword, callDeleteResumeForUser, callFetchCompany, callFetchResumeByUser, callFetchUserById, callGetSubscriberSkills, callUpdateSubscriber, callUpdateUserForNormal } from "@/config/api";
+import { callChangePassword, callDeleteResumeForUser, callFetchCompany, callFetchFavoriteJobs, callFetchResumeByUser, callFetchUserById, callGetSubscriberSkills, callRemoveJobFromFavorites, callUpdateSubscriber, callUpdateUserForNormal } from "@/config/api";
 import type { ColumnsType } from 'antd/es/table';
 import dayjs from 'dayjs';
 import { MonitorOutlined } from "@ant-design/icons";
-import { SKILLS_LIST } from "@/config/utils";
+import { convertSlug, SKILLS_LIST } from "@/config/utils";
 import { useAppSelector } from "@/redux/hooks";
+import { useNavigate } from "react-router-dom";
 
 interface IProps {
     open: boolean;
@@ -38,6 +39,8 @@ const UserResume = (props: any) => {
             if (res && res.data) {
                 message.success('Đã rút CV thành công');
                 fetchResumes(); // load lại danh sách sau khi rút
+            }else {
+              message.error(res.message);
             }
         } catch (error) {
             message.error('Rút CV thất bại');
@@ -120,6 +123,106 @@ const UserResume = (props: any) => {
         </div>
     )
 }
+
+const FavoriteJobs = ({ onClose }: { onClose?: (v: boolean) => void }) => {
+  const navigate = useNavigate();
+
+  const [jobs, setJobs] = useState<IFavoriteJobItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    fetchFavoriteJobs();
+  }, []);
+
+  const fetchFavoriteJobs = async () => {
+    setLoading(true);
+    try {
+      const res = await callFetchFavoriteJobs();
+      console.log("res: ", res.data[0].jobs)
+    
+      // Dữ liệu nằm trong res.data.data[0].jobs
+      const favoriteList = res.data[0].jobs;
+      if (Array.isArray(favoriteList) && favoriteList.length > 0) {
+        const jobs = favoriteList || [];
+        setJobs(jobs);
+        console.log("jobs: ", jobs);
+      } else {
+        setJobs([]);
+      }
+    } catch (error) {
+      console.error("Lỗi khi fetch jobs", error);
+      message.error('Không thể tải danh sách yêu thích');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRemoveJob = async (jobId: string) => {
+    try {
+      const res = await callRemoveJobFromFavorites(jobId); // gọi API xoá
+      if (res && res.data) {
+        message.success('Đã bỏ yêu thích');
+        fetchFavoriteJobs(); // load lại danh sách
+      }
+    } catch (error) {
+      message.error('Thao tác thất bại');
+    }
+  };
+
+  const handleApply = (jobId: string, jobName: string) => {
+    const slug = convertSlug(jobName);
+    if (onClose) onClose(false);
+    navigate(`/job/${slug}?id=${jobId}`);
+  };
+
+  const columns: ColumnsType<IFavoriteJobItem> = [
+    {
+      title: 'STT',
+      key: 'index',
+      width: 50,
+      align: 'center',
+      render: (_, __, index) => <>{index + 1}</>,
+    },
+    {
+      title: 'Tên công việc',
+      dataIndex: 'jobName',
+    },
+    {
+      title: 'Tên công ty',
+      dataIndex: 'companyName',
+    },
+    {
+      title: '',
+      key: 'actions',
+      width: 150,
+      render: (_, record) => (
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <Button onClick={() => handleApply(record.jobId, record.jobName)}>Rải CV</Button>
+          <Popconfirm
+            title="Bạn có chắc chắn muốn bỏ yêu thích công việc này?"
+            onConfirm={() => handleRemoveJob(record.jobId)}
+            okText="Có"
+            cancelText="Không"
+          >
+            <Button danger>Bỏ yêu thích</Button>
+          </Popconfirm>
+        </div>
+      ),
+    },
+  ];
+
+  return (
+    <div>
+      <Table<IFavoriteJobItem>
+        columns={columns}
+        dataSource={jobs}
+        loading={loading}
+        pagination={false}
+        rowKey={(record) => record.jobId}
+      />
+    </div>
+  );
+};
 
 const ChangePassword = () => {
     const [form] = Form.useForm();
@@ -446,6 +549,11 @@ const ManageAccount = (props: IProps) => {
             key: 'user-resume',
             label: `Danh sách CV đã gửi`,
             children: <UserResume />,
+        },
+        {
+            key: 'favorite-jobs',
+            label: `Danh sách CV yêu thích`,
+            children: <FavoriteJobs onClose={onClose} />, 
         },
         {
             key: 'email-by-skills',

@@ -268,3 +268,30 @@ export const callFetchTotalCompanies = () => {
 export const callFetchTotalJobs = () => {
   return axios.post<IBackendRes<{ total: number }>>('/api/v1/jobs/total');
 };
+
+
+/**
+ * 
+Module FavoriteJobs
+ */
+
+export const callFetchFavoriteJobs = () => {
+  return axios.post('/api/v1/favorite-jobs/me');
+};
+
+export const callRemoveJobFromFavorites = (jobId: string) => {
+  return axios.delete(`/api/v1/favorite-jobs/remove-job/${jobId}`);
+};
+
+export const callCheckJobInFavorite = async (jobId: string) => {
+  return axios.get(`/api/v1/favorite-jobs/check-job/${jobId}`);
+};
+
+export const callAddJobToFavorite = async (payload: {
+  jobId: string;
+  companyId?: string;
+  jobName: string;
+  companyName?: string;
+}) => {
+  return axios.post(`/api/v1/favorite-jobs/add-job`, payload);
+};

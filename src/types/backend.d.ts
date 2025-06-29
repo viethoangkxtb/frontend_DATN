@@ -137,6 +137,14 @@ export interface IResume {
     userLogin?: string;
 }
 
+export interface IFavoriteJobItem {
+    _id?: string;
+    jobId: string;
+    companyId: string;
+    jobName: string;
+    companyName: string;
+}
+
 export interface IPermission {
     _id?: string;
     name?: string;
