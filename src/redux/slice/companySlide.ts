@@ -14,12 +14,14 @@ interface IState {
 }
 // First, create the thunk
 export const fetchCompany = createAsyncThunk(
-    'company/fetchCompany',
-    async ({ query }: { query: string }) => {
-        const response = await callFetchCompany(query);
-        return response;
-    }
-)
+  'company/fetchCompany',
+  async (
+    { query, isAdminPage = false }: { query: string; isAdminPage?: boolean }
+  ) => {
+    const response = await callFetchCompany(query, isAdminPage);
+    return response;
+  }
+);
 
 
 const initialState: IState = {

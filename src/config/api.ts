@@ -67,9 +67,16 @@ export const callDeleteCompany = (id: string) => {
     return axios.delete<IBackendRes<ICompany>>(`/api/v1/companies/${id}`);
 }
 
-export const callFetchCompany = (query: string) => {
-    return axios.get<IBackendRes<IModelPaginate<ICompany>>>(`/api/v1/companies?${query}`);
-}
+export const callFetchCompany = (query: string, isAdminPage: boolean = false) => {
+  if (isAdminPage) {
+    const url = `/api/v1/companies/hr?${query}`;
+    const queryObject = queryString.parse(query);
+    return axios.post<IBackendRes<IModelPaginate<ICompany>>>(url, queryObject);
+  } else {
+    const url = `/api/v1/companies?${query}`;
+    return axios.get<IBackendRes<IModelPaginate<ICompany>>>(url);
+  }
+};
 
 export const callFetchCompanyById = (id: string) => {
     return axios.get<IBackendRes<ICompany>>(`/api/v1/companies/${id}`);

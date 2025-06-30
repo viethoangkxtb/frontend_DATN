@@ -210,7 +210,7 @@ const CompanyPage = () => {
                     dataSource={companies}
                     request={async (params, sort, filter): Promise<any> => {
                         const query = buildQuery(params, sort, filter);
-                        dispatch(fetchCompany({ query }))
+                        dispatch(fetchCompany({ query, isAdminPage: true  }))
                     }}
                     scroll={{ x: true }}
                     pagination={

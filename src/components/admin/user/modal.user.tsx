@@ -227,7 +227,7 @@ const ModalUser = (props: IProps) => {
                                 showSearch
                                 defaultValue={roles}
                                 value={roles}
-                                placeholder="Chọn công vai trò"
+                                placeholder="Chọn vai trò"
                                 fetchOptions={fetchRoleList}
                                 onChange={(newValue: any) => {
                                     if (newValue?.length === 0 || newValue?.length === 1) {
